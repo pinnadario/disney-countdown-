@@ -1,0 +1,2830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <title>Disneyland Paris Adventure Countdown - September 8, 2025</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 105, 180, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(135, 206, 235, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #1e3c72 0%, #2a5298 25%, #4a90e2 50%, #87ceeb 75%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            -webkit-user-select: none;
+            user-select: none;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        /* MODO ESPACIAL - STITCH SPACE MODE */
+        body.space-mode {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 150, 255, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(138, 43, 226, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 20, 147, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a2e 0%, #16213e 25%, #2d1b69 50%, #4b0082 75%, #8a2be2 100%);
+            animation: spaceBackground 8s ease-in-out infinite;
+        }
+
+        /* Estrellas del espacio */
+        .space-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .star.small { width: 1px; height: 1px; }
+        .star.medium { width: 2px; height: 2px; }
+        .star.large { width: 3px; height: 3px; }
+
+        /* Nave espacial de Stitch */
+        .stitch-spaceship {
+            position: fixed;
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(45deg, #0096ff, #8a2be2);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            z-index: 100;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s ease;
+            box-shadow: 
+                0 0 20px rgba(0, 150, 255, 0.8),
+                0 0 40px rgba(138, 43, 226, 0.6),
+                inset 0 0 20px rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .stitch-spaceship.active {
+            opacity: 1;
+            transform: scale(1);
+            animation: flyAround 12s linear infinite;
+        }
+
+        .stitch-spaceship::before {
+            content: '👽';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            animation: stitchPilot 2s ease-in-out infinite;
+        }
+
+        .stitch-spaceship::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 15px;
+            background: linear-gradient(90deg, transparent, rgba(0, 150, 255, 0.8), transparent);
+            border-radius: 50%;
+            animation: thruster 0.5s ease-in-out infinite alternate;
+        }
+
+        /* Space timer and message */
+        .space-timer {
+            position: fixed;
+            top: 50px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            z-index: 100;
+            animation: timerGlow 1s ease-in-out infinite alternate;
+        }
+
+        .space-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ff00;
+            padding: 20px 30px;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 3px solid #00ff00;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.8);
+            z-index: 150;
+            animation: messageArrival 2s ease-out;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Theme System */
+        :root {
+            --primary-bg: linear-gradient(135deg, #1e3c72, #764ba2);
+            --secondary-bg: rgba(255,255,255,0.1);
+            --accent-color: #ffd700;
+            --text-primary: white;
+            --text-secondary: #333;
+            --border-color: rgba(255,255,255,0.3);
+            --card-bg: rgba(255,255,255,0.9);
+        }
+
+        .theme-dark {
+            --primary-bg: linear-gradient(135deg, #0c0c0c, #1a1a2e, #16213e);
+            --secondary-bg: rgba(255,255,255,0.05);
+            --text-secondary: #ffffff;
+            --card-bg: rgba(20,20,20,0.9);
+        }
+
+        .theme-light {
+            --primary-bg: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            --secondary-bg: rgba(0,0,0,0.05);
+            --accent-color: #e74c3c;
+            --text-primary: #2c3e50;
+            --text-secondary: #2c3e50;
+            --card-bg: rgba(255,255,255,0.95);
+        }
+
+        .theme-disney {
+            --primary-bg: linear-gradient(135deg, #003366, #0066cc, #3399ff);
+            --secondary-bg: rgba(255,215,0,0.1);
+            --border-color: rgba(255,215,0,0.4);
+            --card-bg: rgba(255,255,255,0.95);
+            --text-secondary: #003366;
+        }
+
+        /* Top Header with Real Weather */
+        .top-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 8px 15px;
+            background: rgba(0,0,0,0.4);
+            font-size: 0.8rem;
+            z-index: 100;
+            flex-direction: column;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .datetime {
+            color: rgba(255,255,255,0.9);
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .connection-light {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #00ff00;
+            box-shadow: 0 0 8px rgba(0,255,0,0.5);
+            animation: pulse 2s infinite;
+        }
+
+        body.space-mode .connection-light {
+            background: #0096ff;
+            box-shadow: 0 0 8px rgba(0,150,255,0.8);
+            animation: spacePulse 2s ease-in-out infinite;
+        }
+
+        /* Real Weather Ticker */
+        .weather-ticker {
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(90deg, rgba(30,60,114,0.8), rgba(74,144,226,0.8), rgba(118,75,162,0.8));
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .weather-ticker-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: tickerScroll 50s linear infinite;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.95);
+            padding-right: 100%;
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+
+        /* Language and Controls */
+        .language-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-toggle {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            user-select: none;
+        }
+
+        .language-toggle:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .language-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 5px;
+            background: rgba(0,0,0,0.95);
+            border-radius: 12px;
+            padding: 8px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            min-width: 200px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            z-index: 1001;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+
+        .language-dropdown:hover .language-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.65rem;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            text-align: center;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .language-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.02);
+        }
+
+        .language-btn.active {
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            color: #333;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Theme Controls */
+        .theme-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .theme-toggle {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            user-select: none;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .theme-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 5px;
+            background: rgba(0,0,0,0.95);
+            border-radius: 12px;
+            padding: 8px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            min-width: 160px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            z-index: 1001;
+        }
+
+        .theme-dropdown:hover .theme-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .theme-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            text-align: center;
+            white-space: nowrap;
+            user-select: none;
+            width: 100%;
+            margin: 2px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.02);
+        }
+
+        .theme-btn.active {
+            background: linear-gradient(45deg, #ffd700, #ffb347);
+            color: #333;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .theme-preview {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .theme-preview.default { background: linear-gradient(45deg, #1e3c72, #764ba2); }
+        .theme-preview.dark { background: linear-gradient(45deg, #0c0c0c, #1a1a2e); }
+        .theme-preview.light { background: linear-gradient(45deg, #f5f7fa, #c3cfe2); }
+        .theme-preview.disney { background: linear-gradient(45deg, #003366, #0066cc); }
+
+        /* Audio Control */
+        .audio-control {
+            position: fixed;
+            top: 20px;
+            right: 320px;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .audio-control:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .audio-control.enabled {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .audio-control.disabled {
+            background: rgba(100,100,100,0.7);
+            color: #ccc;
+        }
+
+        /* Magic Particles */
+        .magic-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 1.2rem;
+            animation-duration: 10s;
+            animation-iteration-count: infinite;
+            animation-timing-function: ease-in-out;
+        }
+
+        .particle1 { top: 15%; left: 15%; animation: floatParticle1 12s infinite; }
+        .particle2 { top: 25%; right: 20%; animation: floatParticle2 14s infinite; }
+        .particle3 { top: 60%; left: 10%; animation: floatParticle3 16s infinite; }
+        .particle4 { top: 80%; right: 15%; animation: floatParticle4 11s infinite; }
+        .particle5 { top: 40%; left: 80%; animation: floatParticle1 13s infinite; }
+        .particle6 { top: 55%; right: 70%; animation: floatParticle2 15s infinite; }
+
+        body.space-mode .particle {
+            filter: hue-rotate(180deg) brightness(1.5);
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 15px 20px 15px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 
+                0 0 10px rgba(255, 215, 0, 0.8),
+                0 0 20px rgba(255, 105, 180, 0.6),
+                2px 2px 4px rgba(0,0,0,0.4);
+            color: #ffd700;
+            line-height: 1.2;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        body.space-mode .title {
+            color: #00ffff;
+            text-shadow: 
+                0 0 10px rgba(0, 255, 255, 0.8),
+                0 0 20px rgba(138, 43, 226, 0.6),
+                2px 2px 4px rgba(0,0,0,0.4);
+            animation: spaceGlow 2s ease-in-out infinite alternate;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            opacity: 0.95;
+            line-height: 1.3;
+        }
+
+        /* Countdown Container */
+        .countdown-container {
+            background: 
+                linear-gradient(45deg, rgba(255,255,255,0.15), rgba(255,215,0,0.1)),
+                radial-gradient(circle at center, rgba(135,206,235,0.2) 0%, transparent 70%);
+            border-radius: 20px;
+            padding: 25px 15px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.3),
+                0 0 30px rgba(255,215,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,215,0,0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        body.space-mode .countdown-container {
+            background: 
+                linear-gradient(45deg, rgba(0,150,255,0.25), rgba(138,43,226,0.15)),
+                radial-gradient(circle at center, rgba(0,255,255,0.3) 0%, transparent 70%);
+            border: 1px solid rgba(0,255,255,0.5);
+            box-shadow: 
+                0 8px 32px rgba(138,43,226,0.4),
+                0 0 30px rgba(0,255,255,0.3);
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .countdown-item {
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,215,0,0.15)),
+                radial-gradient(circle at top, rgba(135,206,235,0.3) 0%, transparent 60%);
+            border-radius: 10px;
+            padding: 15px 8px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,215,0,0.2);
+            box-shadow: 
+                0 4px 15px rgba(0,0,0,0.2),
+                0 0 15px rgba(255,215,0,0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        body.space-mode .countdown-item {
+            background: 
+                linear-gradient(135deg, rgba(0,150,255,0.35), rgba(138,43,226,0.25)),
+                radial-gradient(circle at top, rgba(0,255,255,0.4) 0%, transparent 60%);
+            border: 1px solid rgba(0,255,255,0.4);
+            box-shadow: 
+                0 4px 15px rgba(138,43,226,0.3),
+                0 0 15px rgba(0,255,255,0.2);
+        }
+
+        .countdown-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,215,0,0.3), transparent);
+            animation: magicRotate 4s linear infinite;
+            z-index: -1;
+        }
+
+        .countdown-item:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.3),
+                0 0 30px rgba(255,215,0,0.4);
+        }
+
+        .countdown-number {
+            font-size: 1.6rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #ffd700;
+            text-shadow: 
+                0 0 10px rgba(255,215,0,0.8),
+                0 2px 4px rgba(0,0,0,0.3);
+            animation: numberPulse 2s ease-in-out infinite;
+        }
+
+        body.space-mode .countdown-number {
+            color: #00ffff;
+            text-shadow: 
+                0 0 10px rgba(0,255,255,0.8),
+                0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        /* Characters Section */
+        .characters-section {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 8px;
+            margin: 30px 0;
+            justify-content: space-between;
+        }
+
+        .characters-section > * {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .character {
+            background: rgba(255,255,255,0.15);
+            border-radius: 15px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            position: relative;
+        }
+
+        .character:active {
+            transform: scale(0.95);
+            background: rgba(255,255,255,0.3);
+        }
+
+        .character:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.3),
+                0 0 40px rgba(255,215,0,0.3);
+        }
+
+        .character.stitch {
+            background: linear-gradient(45deg, rgba(0,150,255,0.3), rgba(255,105,180,0.3));
+            border: 2px solid rgba(0,150,255,0.5);
+        }
+
+        .character-emoji {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: emojiFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
+        }
+
+        .character-name {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        /* Family Section */
+        .family-section {
+            background: var(--card-bg);
+            color: var(--text-secondary);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #764ba2;
+        }
+
+        .family-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .family-member {
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 15px 8px;
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            position: relative;
+        }
+
+        .family-member:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .family-member.selected {
+            background: rgba(0,255,0,0.3);
+            border: 2px solid rgba(0,255,0,0.6);
+        }
+
+        .family-member.selected::after {
+            content: '✅';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.8rem;
+        }
+
+        .member-emoji {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .member-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        /* Entertainment Buttons */
+        .music-play-button {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            border: none;
+            color: white;
+            padding: 12px 8px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin: 0;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            text-align: center;
+            line-height: 1.1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 80px;
+        }
+
+        .jokes-button {
+            background: linear-gradient(45deg, #ffd93d, #ff6b6b);
+        }
+
+        .wait-times-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        /* Stitch Space Mode Button */
+        .space-mode-button {
+            background: linear-gradient(45deg, #ff1493, #8a2be2, #0096ff);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .space-mode-button.active {
+            background: linear-gradient(45deg, #00ffff, #ff1493);
+            box-shadow: 
+                0 0 20px rgba(0,255,255,0.8),
+                0 0 40px rgba(255,20,147,0.6);
+        }
+
+        /* Speech Bubble */
+        .speech-bubble {
+            position: fixed;
+            background: linear-gradient(45deg, #ff69b4, #87ceeb);
+            color: #333;
+            padding: 12px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            max-width: 280px;
+            z-index: 1000;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 
+                0 4px 20px rgba(0,0,0,0.3),
+                0 0 20px rgba(255,105,180,0.4);
+            border: 2px solid white;
+            cursor: pointer;
+            pointer-events: auto;
+            -webkit-tap-highlight-color: transparent;
+            line-height: 1.3;
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .speech-bubble.loading {
+            background: linear-gradient(45deg, #ffd93d, #ff6b6b);
+            color: white;
+        }
+
+        body.space-mode .speech-bubble {
+            background: linear-gradient(45deg, #0096ff, #8a2be2);
+            color: white;
+            border: 2px solid rgba(0,255,255,0.5);
+        }
+
+        /* Special Message */
+        .special-message {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 15px 0;
+            padding: 12px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #4ecdc4);
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            line-height: 1.3;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Action Buttons */
+        .action-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        /* Space Control Button */
+        .space-control-btn {
+            background: linear-gradient(45deg, #0096ff, #8a2be2);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.2);
+            margin: 10px;
+        }
+
+        .space-control-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .space-control-btn:hover::before {
+            left: 100%;
+        }
+
+        .space-control-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,150,255,0.5);
+        }
+
+        .space-control-btn.active {
+            background: linear-gradient(45deg, #00ffff, #ff1493);
+            box-shadow: 
+                0 0 20px rgba(0,255,255,0.8),
+                0 0 40px rgba(255,20,147,0.6);
+        }
+
+        /* Animations */
+        @keyframes spaceBackground {
+            0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+            50% { filter: hue-rotate(30deg) brightness(1.2); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @keyframes flyAround {
+            0% { 
+                left: -120px; 
+                top: 20%; 
+                transform: rotate(0deg) scale(1);
+            }
+            25% { 
+                left: 50%; 
+                top: 10%; 
+                transform: rotate(45deg) scale(1.1);
+            }
+            50% { 
+                left: calc(100% + 120px); 
+                top: 30%; 
+                transform: rotate(90deg) scale(1);
+            }
+            75% { 
+                left: 50%; 
+                top: 50%; 
+                transform: rotate(135deg) scale(1.1);
+            }
+            100% { 
+                left: -120px; 
+                top: 20%; 
+                transform: rotate(180deg) scale(1);
+            }
+        }
+
+        @keyframes stitchPilot {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(10deg) scale(1.1); }
+        }
+
+        @keyframes thruster {
+            0% { opacity: 0.6; transform: translateX(-50%) scaleY(1); }
+            100% { opacity: 1; transform: translateX(-50%) scaleY(1.5); }
+        }
+
+        @keyframes spacePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        @keyframes spaceGlow {
+            0% { text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(138, 43, 226, 0.6); }
+            100% { text-shadow: 0 0 20px rgba(0, 255, 255, 1), 0 0 30px rgba(138, 43, 226, 0.8); }
+        }
+
+        @keyframes timerGlow {
+            0% { 
+                box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); 
+                color: #00ff00; 
+            }
+            100% { 
+                box-shadow: 0 0 40px rgba(0, 255, 0, 1); 
+                color: #88ff88; 
+            }
+        }
+
+        @keyframes messageArrival {
+            0% { 
+                transform: translate(-50%, -50%) scale(0) rotate(180deg); 
+                opacity: 0; 
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.2) rotate(0deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg); 
+                opacity: 1; 
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatParticle1 {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-35px) translateX(18px) rotate(180deg); opacity: 1; }
+        }
+
+        @keyframes floatParticle2 {
+            0%, 100% { transform: translateY(0px) translateX(0px) scale(1) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-25px) translateX(-15px) scale(1.3) rotate(180deg); opacity: 1; }
+        }
+
+        @keyframes floatParticle3 {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateY(-35px) translateX(18px) rotate(180deg); opacity: 1; }
+        }
+
+        @keyframes floatParticle4 {
+            0%, 100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-20px) translateX(-12px) scale(1.1); opacity: 1; }
+        }
+
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 105, 180, 0.6); }
+            100% { text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 105, 180, 0.8); }
+        }
+
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes emojiFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-5px) rotate(2deg); }
+            66% { transform: translateY(2px) rotate(-2deg); }
+        }
+
+        @keyframes magicRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes magicalEntrance {
+            0% { opacity: 0; transform: scale(0.5) rotate(-180deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(0deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .title { font-size: 1.6rem; }
+            .countdown-number { font-size: 1.4rem; }
+            .character-emoji { font-size: 2.5rem; }
+            .speech-bubble { max-width: 90vw; }
+            .audio-control { 
+                position: static; 
+                margin: 10px auto; 
+                display: flex; 
+                justify-content: center;
+            }
+            .top-header { padding-left: 15px; }
+        }
+
+        @media (max-width: 600px) {
+            .countdown { grid-template-columns: repeat(2, 1fr); }
+            .title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stitch Spaceship -->
+    <div class="stitch-spaceship" id="stitchSpaceship"></div>
+    
+    <!-- Space Stars Container -->
+    <div class="space-stars" id="spaceStars"></div>
+
+    <div class="magic-particles">
+        <div class="particle particle1">✨</div>
+        <div class="particle particle2">🌟</div>
+        <div class="particle particle3">⭐</div>
+        <div class="particle particle4">💫</div>
+        <div class="particle particle5">🌙</div>
+        <div class="particle particle6">🎭</div>
+    </div>
+
+    <div class="top-header">
+        <div class="header-top">
+            <div style="color: rgba(255,255,255,0.7); font-size: 0.7rem; font-weight: 400;" data-text="made_by">Made by Team Magic</div>
+            <div class="datetime" id="datetime">Loading...</div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="language-dropdown">
+                    <div class="language-toggle">
+                        🌍 <span class="current-lang" id="currentLang">EN</span> ▼
+                    </div>
+                    <div class="language-options">
+                        <button class="language-btn active" onclick="changeLanguage('en')" data-lang="en">🇬🇧 EN</button>
+                        <button class="language-btn" onclick="changeLanguage('es')" data-lang="es">🇪🇸 ES</button>
+                        <button class="language-btn" onclick="changeLanguage('it')" data-lang="it">🇮🇹 IT</button>
+                        <button class="language-btn" onclick="changeLanguage('fr')" data-lang="fr">🇫🇷 FR</button>
+                        <button class="language-btn" onclick="changeLanguage('ca')" data-lang="ca">🏴󠁥󠁳󠁣󠁴󠁿 CA</button>
+                        <button class="language-btn" onclick="changeLanguage('eu')" data-lang="eu">🏴󠁥󠁳󠁰󠁶󠁿 EU</button>
+                        <button class="language-btn" onclick="changeLanguage('de')" data-lang="de">🇩🇪 DE</button>
+                        <button class="language-btn" onclick="changeLanguage('pt')" data-lang="pt">🇵🇹 PT</button>
+                    </div>
+                </div>
+                <div class="theme-dropdown">
+                    <div class="theme-toggle">
+                        🎨 <span id="currentTheme" data-text="theme_default">Default</span> ▼
+                    </div>
+                    <div class="theme-options">
+                        <button class="theme-btn active" onclick="changeTheme('default')" data-theme="default">
+                            <div class="theme-preview default"></div>
+                            <span data-text="theme_default">Default</span>
+                        </button>
+                        <button class="theme-btn" onclick="changeTheme('dark')" data-theme="dark">
+                            <div class="theme-preview dark"></div>
+                            <span data-text="theme_dark">Dark</span>
+                        </button>
+                        <button class="theme-btn" onclick="changeTheme('light')" data-theme="light">
+                            <div class="theme-preview light"></div>
+                            <span data-text="theme_light">Light</span>
+                        </button>
+                        <button class="theme-btn" onclick="changeTheme('disney')" data-theme="disney">
+                            <div class="theme-preview disney"></div>
+                            <span data-text="theme_disney">Disney Magic</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="connection-status">
+                    <div class="connection-light"></div>
+                    <span data-text="online">Online</span>
+                </div>
+            </div>
+        </div>
+        <!-- REAL WEATHER DATA TICKER -->
+        <div class="weather-ticker">
+            <div class="weather-ticker-content" id="weatherTicker" data-text="weather_info">
+                🏰 HOY en Disneyland París: ☀️ 22°C, Parcialmente nublado con intervalos de sol • Temperatura: Mín 13°C / Máx 28°C • Probabilidad lluvia: 5% • Viento: 5-10 mph variable • Índice UV: 5 (Protección moderada) • Humedad: 53% • Amanecer: 7:13 AM • Atardecer: 8:24 PM • MAÑANA: ☀️ 24°C, Intervalos de nubes y sol • Máx 28°C / Mín 16°C • Viento ESE 10-15 mph • Lluvia: 4% • Humedad: 59% • ¡Condiciones perfectas para Disney! • Mejores horas de visita: 10:00-18:00 • Calidad del aire: Buena • Visibilidad: 15km • Presión: 1018 hPa
+            </div>
+        </div>
+    </div>
+
+    <button class="audio-control enabled" onclick="toggleAudio()" id="audioControl">
+        <span class="volume-indicator">🔊</span>
+        <span data-text="audio_enabled">Audio ON</span>
+    </button>
+
+    <div class="speech-bubble" id="speechBubble"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="title" data-text="main_title">✨ MAGICAL DISNEY ADVENTURE ✨</h1>
+            <p class="subtitle" data-text="subtitle">🏰 Where Dreams Come True - September 8th, 2025! 🌟</p>
+            <p style="font-size: 1rem; margin-top: 8px; opacity: 0.9; line-height: 1.3;" data-text="description">
+                🎭 Step into a world of wonder, magic, and endless possibilities! 🎪
+            </p>
+        </div>
+
+        <div class="countdown-container">
+            <div class="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">0</span>
+                    <span class="countdown-label" data-text="days">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">0</span>
+                    <span class="countdown-label" data-text="hours">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">0</span>
+                    <span class="countdown-label" data-text="minutes">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">0</span>
+                    <span class="countdown-label" data-text="seconds">Seconds</span>
+                </div>
+            </div>
+            <div id="special-message" class="special-message"></div>
+        </div>
+
+        <div class="characters-section">
+            <button id="playButton" class="music-play-button">
+                <span>▶️</span><br><span data-text="unleash_magic">Unleash the Magic</span>
+            </button>
+            
+            <div class="character stitch" data-character="stitch" onclick="activateStitchSpaceMode()">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d2/Stitch_%28Lilo_%26_Stitch%29.svg/1200px-Stitch_%28Lilo_%26_Stitch%29.svg.png" 
+                     alt="Stitch" 
+                     style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 15px; filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));">
+                <div class="character-name" data-text="magical_stitch">Magical Stitch</div>
+            </div>
+            
+            <div class="character" data-character="mickey">
+                <span class="character-emoji">🐭</span>
+                <div class="character-name" data-text="enchanted_mickey">Enchanted Mickey</div>
+            </div>
+            
+            <div class="character" data-character="minnie">
+                <span class="character-emoji">🎀</span>
+                <div class="character-name" data-text="princess_minnie">Princess Minnie</div>
+            </div>
+            
+            <button id="jokeButton" class="music-play-button jokes-button">
+                😂 <span data-text="disney_jokes">Disney Jokes</span>
+            </button>
+        </div>
+
+        <!-- Space Mode Control Panel -->
+        <div id="spaceControlPanel" style="display: none; margin: 20px 0; text-align: center; background: rgba(0,0,0,0.7); border-radius: 15px; padding: 20px; border: 2px solid rgba(0,255,255,0.5);">
+            <h3 style="color: #00ffff; margin-bottom: 15px;">🚀 STITCH SPACE MODE ACTIVATED 🛸</h3>
+            <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="space-control-btn" onclick="stitchSpeak()">
+                    💬 <span data-text="stitch_speak">Stitch Speak</span>
+                </button>
+                <button class="space-control-btn" onclick="stitchDance()">
+                    💃 <span data-text="stitch_dance">Stitch Dance</span>
+                </button>
+                <button class="space-control-btn" onclick="deactivateSpaceMode()">
+                    🌍 <span data-text="return_earth">Return to Earth</span>
+                </button>
+            </div>
+            <div id="spaceTimer" style="margin-top: 15px; font-family: 'Courier New', monospace; color: #00ff00; font-weight: bold;"></div>
+        </div>
+
+        <div class="family-section">
+            <h2 class="section-title" data-text="adventure_squad">🎪 Our Magical Adventure Squad 🎪</h2>
+            <p style="text-align: center; font-size: 0.9rem; margin-bottom: 15px; opacity: 0.9;" data-text="select_characters">Select who you want in the story:</p>
+            <div class="family-grid">
+                <div class="family-member selected" data-member="aurora">
+                    <span class="member-emoji">👸</span>
+                    <div class="member-name" data-text="princess_aurora">Princess Aurora</div>
+                </div>
+                <div class="family-member selected" data-member="phoenix">
+                    <span class="member-emoji">🔥</span>
+                    <div class="member-name" data-text="wizard_phoenix">Wizard Phoenix</div>
+                </div>
+                <div class="family-member selected" data-member="sophia">
+                    <span class="member-emoji">✨</span>
+                    <div class="member-name" data-text="enchantress_sophia">Enchantress Sophia</div>
+                </div>
+                <div class="family-member selected" data-member="marcus">
+                    <span class="member-emoji">⚔️</span>
+                    <div class="member-name" data-text="guardian_marcus">Guardian Marcus</div>
+                </div>
+                <div class="family-member selected" data-member="stella">
+                    <span class="member-emoji">⭐</span>
+                    <div class="member-name" data-text="starlight_stella">Starlight Stella</div>
+                </div>
+                <div class="family-member selected" data-member="luna">
+                    <span class="member-emoji">🌙</span>
+                    <div class="member-name" data-text="mystic_luna">Mystic Luna</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story Section -->
+        <div class="family-section" id="storySection">
+            <h2 class="section-title" data-text="disney_stories">📖 Children's Disney Stories 📖</h2>
+            <div style="text-align: center; padding: 10px;">
+                <p style="font-size: 0.9rem; margin-bottom: 15px; opacity: 0.9;" data-text="unique_stories">Create completely unique children's stories that never repeat!</p>
+                
+                <button id="createStoryBtn" class="action-button" style="background: linear-gradient(45deg, #9b59b6, #3498db); font-size: 1rem; padding: 15px 25px;">
+                    🪄 <span data-text="create_story">Create New Magical Story</span> ✨
+                </button>
+                
+                <div id="storyDisplay" style="display: none; margin-top: 20px;">
+                    <div id="storyTitle" style="font-size: 1.3rem; font-weight: bold; color: #ffd700; margin-bottom: 15px;"></div>
+                    
+                    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                        <button id="playStoryBtn" class="action-button" style="background: linear-gradient(45deg, #27ae60, #16a085);">
+                            ▶️ <span data-text="tell_story">Tell Me The Story</span>
+                        </button>
+                        <button id="stopStoryBtn" class="action-button" style="background: linear-gradient(45deg, #e74c3c, #c0392b); display: none;">
+                            ⏹️ <span data-text="stop_story">Stop Story</span>
+                        </button>
+                    </div>
+                    
+                    <div id="storyText" style="display: none; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; text-align: left; line-height: 1.6;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="family-section">
+            <h2 class="section-title" data-text="castle_stay">🏨 Our Enchanted Castle Stay 🏨</h2>
+            <div style="text-align: center; padding: 10px;">
+                <p style="font-size: 1.1rem; font-weight: bold; color: #ffd700;" data-text="villages_nature">🏡 Villages Nature Paris</p>
+                <p style="margin-top: 10px;" data-text="magic_nature">Where Magic Meets Nature!</p>
+                <p style="margin-top: 10px; opacity: 0.9;" data-text="eco_resort">An eco-friendly fairy tale resort where enchanted forests whisper Disney dreams!</p>
+                <a href="https://www.google.com/maps/search/Villages+Nature+Paris" target="_blank" class="action-button" style="margin-top: 15px;">
+                    🗺️ <span data-text="navigate_castle">Navigate to Our Castle</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Multi-language support with all translations
+        const translations = {
+            en: {
+                made_by: "Made by Team Magic",
+                online: "Online",
+                weather_info: "🏰 TODAY at Disneyland Paris: ☀️ 22°C, Partly cloudy with sunny intervals • Temperature: Min 13°C / Max 28°C • Rain probability: 5% • Wind: 5-10 mph variable • UV Index: 5 (Moderate protection) • Humidity: 53% • Sunrise: 7:13 AM • Sunset: 8:24 PM • TOMORROW: ☀️ 24°C, Intervals of clouds and sun • Max 28°C / Min 16°C • Wind ESE 10-15 mph • Rain: 4% • Humidity: 59% • Perfect Disney conditions! • Best visiting hours: 10:00-18:00 • Air quality: Good • Visibility: 15km • Pressure: 1018 hPa",
+                main_title: "✨ MAGICAL DISNEY ADVENTURE ✨",
+                subtitle: "🏰 Where Dreams Come True - September 8th, 2025! 🌟",
+                description: "🎭 Step into a world of wonder, magic, and endless possibilities! 🎪",
+                days: "Days", hours: "Hours", minutes: "Minutes", seconds: "Seconds",
+                unleash_magic: "Unleash the Magic",
+                magical_stitch: "Magical Stitch", enchanted_mickey: "Enchanted Mickey", princess_minnie: "Princess Minnie",
+                disney_jokes: "Disney Jokes",
+                adventure_squad: "🎪 Our Magical Adventure Squad 🎪",
+                select_characters: "Select who you want in the story:",
+                princess_aurora: "Princess Aurora", wizard_phoenix: "Wizard Phoenix", enchantress_sophia: "Enchantress Sophia",
+                guardian_marcus: "Guardian Marcus", starlight_stella: "Starlight Stella", mystic_luna: "Mystic Luna",
+                disney_stories: "📖 Children's Disney Stories 📖",
+                unique_stories: "Create completely unique children's stories that never repeat!",
+                create_story: "Create New Magical Story", tell_story: "Tell Me The Story", stop_story: "Stop Story",
+                castle_stay: "🏨 Our Enchanted Castle Stay 🏨",
+                villages_nature: "🏡 Villages Nature Paris", magic_nature: "Where Magic Meets Nature!",
+                eco_resort: "An eco-friendly fairy tale resort where enchanted forests whisper Disney dreams!",
+                navigate_castle: "Navigate to Our Castle",
+                today_is_day: "TODAY IS THE MAGICAL DAY! Your Disney adventure begins now! 🎆✨",
+                one_day_left: "Just 1 day left! Pack your dreams and fairy dust! 🌟",
+                days_until: "days until your magical Disney adventure! 🏰",
+                days_magical: "Only {days} magical days until your Disney fairy tale begins! ✨",
+                finding_jokes: "🎭 Finding fresh Disney character jokes...",
+                creating_story: "🪄 Creating Unique Magic... ✨",
+                theme_default: "Default", theme_dark: "Dark", theme_light: "Light", theme_disney: "Disney Magic",
+                audio_enabled: "Audio ON", audio_disabled: "Audio OFF",
+                stitch_speak: "Stitch Speak", stitch_dance: "Stitch Dance", return_earth: "Return to Earth"
+            },
+            es: {
+                made_by: "Creado por el Equipo Magic",
+                online: "En línea",
+                weather_info: "🏰 HOY en Disneyland París: ☀️ 22°C, Parcialmente nublado con intervalos de sol • Temperatura: Mín 13°C / Máx 28°C • Probabilidad lluvia: 5% • Viento: 5-10 mph variable • Índice UV: 5 (Protección moderada) • Humedad: 53% • Amanecer: 7:13 AM • Atardecer: 8:24 PM • MAÑANA: ☀️ 24°C, Intervalos de nubes y sol • Máx 28°C / Mín 16°C • Viento ESE 10-15 mph • Lluvia: 4% • Humedad: 59% • ¡Condiciones perfectas para Disney! • Mejores horas: 10:00-18:00 • Calidad aire: Buena • Visibilidad: 15km • Presión: 1018 hPa",
+                main_title: "✨ AVENTURA MÁGICA DISNEY ✨",
+                subtitle: "🏰 ¡Donde los Sueños se Hacen Realidad - 8 de Septiembre 2025! 🌟",
+                description: "🎭 ¡Entra en un mundo de maravilla, magia y posibilidades infinitas! 🎪",
+                days: "Días", hours: "Horas", minutes: "Minutos", seconds: "Segundos",
+                unleash_magic: "Libera la Magia",
+                magical_stitch: "Stitch Mágico", enchanted_mickey: "Mickey Encantado", princess_minnie: "Princesa Minnie",
+                disney_jokes: "Chistes Disney",
+                adventure_squad: "🎪 Nuestro Equipo de Aventura Mágica 🎪",
+                select_characters: "Selecciona quién quieres en la historia:",
+                princess_aurora: "Princesa Aurora", wizard_phoenix: "Mago Phoenix", enchantress_sophia: "Hechicera Sophia",
+                guardian_marcus: "Guardián Marcus", starlight_stella: "Stella Estelar", mystic_luna: "Luna Mística",
+                disney_stories: "📖 Cuentos Disney para Niños 📖",
+                unique_stories: "¡Crea cuentos únicos para niños que nunca se repiten!",
+                create_story: "Crear Nuevo Cuento Mágico", tell_story: "Cuéntame la Historia", stop_story: "Parar Historia",
+                castle_stay: "🏨 Nuestra Estancia en el Castillo Encantado 🏨",
+                villages_nature: "🏡 Villages Nature París", magic_nature: "¡Donde la Magia se Encuentra con la Naturaleza!",
+                eco_resort: "¡Un resort ecológico de cuento donde los bosques encantados susurran sueños Disney!",
+                navigate_castle: "Navegar a Nuestro Castillo",
+                today_is_day: "¡HOY ES EL DÍA MÁGICO! ¡Tu aventura Disney comienza ahora! 🎆✨",
+                one_day_left: "¡Solo queda 1 día! ¡Empaca tus sueños y polvo de hada! 🌟",
+                days_until: "días hasta tu aventura Disney mágica! 🏰",
+                days_magical: "¡Solo {days} días mágicos hasta tu cuento Disney! ✨",
+                finding_jokes: "🎭 Buscando chistes frescos de Disney...",
+                creating_story: "🪄 Creando Magia Única... ✨",
+                theme_default: "Por Defecto", theme_dark: "Oscuro", theme_light: "Claro", theme_disney: "Magia Disney",
+                audio_enabled: "Audio ACTIVO", audio_disabled: "Audio DESACTIVADO",
+                stitch_speak: "Stitch Habla", stitch_dance: "Stitch Baila", return_earth: "Regresar a la Tierra"
+            },
+            it: { 
+                made_by: "Creato dal Team Magic", 
+                online: "Online", 
+                weather_info: "🏰 OGGI a Disneyland Parigi: ☀️ 22°C, Parzialmente nuvoloso con intervalli di sole • Temperatura: Min 13°C / Max 28°C • Probabilità pioggia: 5% • Vento: 5-10 mph variabile • Indice UV: 5 (Protezione moderata) • Umidità: 53% • Alba: 7:13 • Tramonto: 8:24 PM • DOMANI: ☀️ 24°C, Intervalli di nuvole e sole • Max 28°C / Min 16°C • Vento ESE 10-15 mph • Pioggia: 4% • Umidità: 59% • Condizioni Disney perfette! • Orari migliori: 10:00-18:00 • Qualità aria: Buona • Visibilità: 15km • Pressione: 1018 hPa",
+                main_title: "✨ AVVENTURA MAGICA DISNEY ✨", 
+                subtitle: "🏰 Dove i Sogni Diventano Realtà - 8 Settembre 2025! 🌟",
+                description: "🎭 Entra in un mondo di meraviglia, magia e possibilità infinite! 🎪",
+                days: "Giorni", hours: "Ore", minutes: "Minuti", seconds: "Secondi",
+                unleash_magic: "Scatena la Magia", 
+                magical_stitch: "Stitch Magico", enchanted_mickey: "Mickey Incantato", princess_minnie: "Principessa Minnie",
+                disney_jokes: "Barzellette Disney",
+                adventure_squad: "🎪 La Nostra Squadra Magica 🎪", 
+                select_characters: "Seleziona chi vuoi nella storia:",
+                princess_aurora: "Principessa Aurora", wizard_phoenix: "Mago Phoenix", enchantress_sophia: "Incantatrice Sophia",
+                guardian_marcus: "Guardiano Marcus", starlight_stella: "Stella Stellare", mystic_luna: "Luna Mistica",
+                disney_stories: "📖 Storie Disney per Bambini 📖", 
+                unique_stories: "Crea storie uniche per bambini che non si ripetono mai!",
+                create_story: "Crea Nuova Storia Magica", tell_story: "Raccontami la Storia", stop_story: "Ferma Storia",
+                castle_stay: "🏨 Il Nostro Soggiorno al Castello Incantato 🏨",
+                villages_nature: "🏡 Villages Nature Parigi", magic_nature: "Dove la Magia Incontra la Natura!",
+                eco_resort: "Un resort ecologico da favola dove foreste incantate sussurrano sogni Disney!",
+                navigate_castle: "Naviga al Nostro Castello",
+                today_is_day: "OGGI È IL GIORNO MAGICO! La tua avventura Disney inizia ora! 🎆✨",
+                one_day_left: "Solo 1 giorno rimasto! Prepara i tuoi sogni e polvere di fata! 🌟",
+                days_until: "giorni fino alla tua avventura Disney magica! 🏰",
+                days_magical: "Solo {days} giorni magici fino alla tua favola Disney! ✨",
+                finding_jokes: "🎭 Cercando barzellette fresche Disney...", 
+                creating_story: "🪄 Creando Magia Unica... ✨",
+                theme_default: "Predefinito", theme_dark: "Scuro", theme_light: "Chiaro", theme_disney: "Magia Disney",
+                audio_enabled: "Audio ATTIVO", audio_disabled: "Audio DISATTIVATO",
+                stitch_speak: "Stitch Parla", stitch_dance: "Stitch Balla", return_earth: "Ritorna sulla Terra"
+            },
+            fr: { 
+                made_by: "Créé par l'Équipe Magic", 
+                online: "En ligne", 
+                weather_info: "🏰 AUJOURD'HUI à Disneyland Paris: ☀️ 22°C, Partiellement nuageux avec intervalles ensoleillés • Température: Min 13°C / Max 28°C • Probabilité pluie: 5% • Vent: 5-10 mph variable • Indice UV: 5 (Protection modérée) • Humidité: 53% • Lever: 7:13 • Coucher: 8:24 PM • DEMAIN: ☀️ 24°C, Intervalles de nuages et soleil • Max 28°C / Min 16°C • Vent ESE 10-15 mph • Pluie: 4% • Humidité: 59% • Conditions Disney parfaites! • Meilleures heures: 10:00-18:00 • Qualité air: Bonne • Visibilité: 15km • Pression: 1018 hPa",
+                main_title: "✨ AVENTURE MAGIQUE DISNEY ✨",
+                subtitle: "🏰 Où les Rêves Deviennent Réalité - 8 Septembre 2025! 🌟",
+                description: "🎭 Entrez dans un monde d'émerveillement, de magie et de possibilités infinies! 🎪",
+                days: "Jours", hours: "Heures", minutes: "Minutes", seconds: "Secondes",
+                unleash_magic: "Libérez la Magie", 
+                magical_stitch: "Stitch Magique", enchanted_mickey: "Mickey Enchanté", princess_minnie: "Princesse Minnie",
+                disney_jokes: "Blagues Disney",
+                adventure_squad: "🎪 Notre Équipe d'Aventure Magique 🎪", 
+                select_characters: "Sélectionnez qui vous voulez dans l'histoire:",
+                princess_aurora: "Princesse Aurore", wizard_phoenix: "Sorcier Phoenix", enchantress_sophia: "Enchanteresse Sophia",
+                guardian_marcus: "Gardien Marcus", starlight_stella: "Stella Étoilée", mystic_luna: "Luna Mystique",
+                disney_stories: "📖 Histoires Disney pour Enfants 📖", 
+                unique_stories: "Créez des histoires uniques pour enfants qui ne se répètent jamais!",
+                create_story: "Créer Nouvelle Histoire Magique", tell_story: "Raconte-moi l'Histoire", stop_story: "Arrêter Histoire",
+                castle_stay: "🏨 Notre Séjour au Château Enchanté 🏨",
+                villages_nature: "🏡 Villages Nature Paris", magic_nature: "Où la Magie Rencontre la Nature!",
+                eco_resort: "Un complexe écologique de conte de fées où les forêts enchantées murmurent des rêves Disney!",
+                navigate_castle: "Naviguer vers Notre Château",
+                today_is_day: "AUJOURD'HUI EST LE JOUR MAGIQUE! Votre aventure Disney commence maintenant! 🎆✨",
+                one_day_left: "Il ne reste qu'1 jour! Préparez vos rêves et poussière de fée! 🌟",
+                days_until: "jours jusqu'à votre aventure Disney magique! 🏰",
+                days_magical: "Seulement {days} jours magiques jusqu'à votre conte de fées Disney! ✨",
+                finding_jokes: "🎭 Recherche de blagues Disney fraîches...", 
+                creating_story: "🪄 Création de Magie Unique... ✨",
+                theme_default: "Par Défaut", theme_dark: "Sombre", theme_light: "Clair", theme_disney: "Magie Disney",
+                audio_enabled: "Audio ACTIVÉ", audio_disabled: "Audio DÉSACTIVÉ",
+                stitch_speak: "Stitch Parle", stitch_dance: "Stitch Danse", return_earth: "Retour sur Terre"
+            },
+            ca: { 
+                made_by: "Creat per l'Equip Magic", 
+                online: "En línia", 
+                weather_info: "🏰 AVUI a Disneyland París: ☀️ 22°C, Parcialment ennuvolat amb intervals de sol • Temperatura: Mín 13°C / Màx 28°C • Probabilitat pluja: 5% • Vent: 5-10 mph variable • Índex UV: 5 (Protecció moderada) • Humitat: 53% • Alba: 7:13 • Capvespre: 8:24 PM • DEMÀ: ☀️ 24°C, Intervals de núvols i sol • Màx 28°C / Mín 16°C • Vent ESE 10-15 mph • Pluja: 4% • Humitat: 59% • Condicions Disney perfectes! • Millors hores: 10:00-18:00 • Qualitat aire: Bona • Visibilitat: 15km • Pressió: 1018 hPa",
+                main_title: "✨ AVENTURA MÀGICA DISNEY ✨",
+                subtitle: "🏰 On els Somnis es Fan Realitat - 8 de Setembre 2025! 🌟",
+                description: "🎭 Entra en un món de meravella, màgia i possibilitats infinites! 🎪",
+                days: "Dies", hours: "Hores", minutes: "Minuts", seconds: "Segons",
+                unleash_magic: "Allibera la Màgia", 
+                magical_stitch: "Stitch Màgic", enchanted_mickey: "Mickey Encantat", princess_minnie: "Princesa Minnie",
+                disney_jokes: "Acudits Disney",
+                adventure_squad: "🎪 El Nostre Equip d'Aventura Màgica 🎪", 
+                select_characters: "Selecciona qui vols a la història:",
+                princess_aurora: "Princesa Aurora", wizard_phoenix: "Mag Phoenix", enchantress_sophia: "Encantadora Sophia",
+                guardian_marcus: "Guardià Marcus", starlight_stella: "Stella Estel·lar", mystic_luna: "Luna Mística",
+                disney_stories: "📖 Contes Disney per a Nens 📖", 
+                unique_stories: "Crea contes únics per a nens que mai es repeteixen!",
+                create_story: "Crear Nou Conte Màgic", tell_story: "Explica'm la Història", stop_story: "Parar Història",
+                castle_stay: "🏨 La Nostra Estada al Castell Encantat 🏨",
+                villages_nature: "🏡 Villages Nature París", magic_nature: "On la Màgia es Troba amb la Natura!",
+                eco_resort: "Un resort ecològic de conte de fades on boscos encantats xiuxiuegen somnis Disney!",
+                navigate_castle: "Navegar al Nostre Castell",
+                today_is_day: "AVUI ÉS EL DIA MÀGIC! La teva aventura Disney comença ara! 🎆✨",
+                one_day_left: "Només queda 1 dia! Empaqueta els teus somnis i pols de fada! 🌟",
+                days_until: "dies fins a la teva aventura Disney màgica! 🏰",
+                days_magical: "Només {days} dies màgics fins al teu conte Disney! ✨",
+                finding_jokes: "🎭 Buscant acudits frescos de Disney...", 
+                creating_story: "🪄 Creant Màgia Única... ✨",
+                theme_default: "Per Defecte", theme_dark: "Fosc", theme_light: "Clar", theme_disney: "Màgia Disney",
+                audio_enabled: "Audio ACTIU", audio_disabled: "Audio DESACTIVAT",
+                stitch_speak: "Stitch Parla", stitch_dance: "Stitch Balla", return_earth: "Tornar a la Terra"
+            },
+            eu: { 
+                made_by: "Magic Taldeak sortua", 
+                online: "Konektatuta", 
+                weather_info: "🏰 GAUR Disneyland Parisen: ☀️ 22°C, Partzialki lainotuta eguzki tarteekin • Tenperatura: Min 13°C / Max 28°C • Euri probabilitatea: %5 • Haizea: 5-10 mph aldakorra • UV indizea: 5 (Babes ertaina) • Hezetasuna: %53 • Egunsentia: 7:13 • Ilunabarra: 8:24 PM • BIHAR: ☀️ 24°C, Hodei eta eguzki tarteak • Max 28°C / Min 16°C • Haizea ESE 10-15 mph • Euria: %4 • Hezetasuna: %59 • Disney baldintza ezin hobeak! • Ordurik onenak: 10:00-18:00 • Airearen kalitatea: Ona • Ikusgaitasuna: 15km • Presioa: 1018 hPa",
+                main_title: "✨ DISNEY ABENTURA MAGIKOA ✨",
+                subtitle: "🏰 Ametsak Egia Bihurtzen Diren Lekua - 2025eko Irailak 8! 🌟",
+                description: "🎭 Sartu harriduraz, magiaz eta aukera mugagabez beteko mundu batean! 🎪",
+                days: "Egunak", hours: "Orduak", minutes: "Minutuak", seconds: "Segundoak",
+                unleash_magic: "Askatu Magia", 
+                magical_stitch: "Stitch Magikoa", enchanted_mickey: "Mickey Sorginkatua", princess_minnie: "Minnie Printzesa",
+                disney_jokes: "Disney Txantxak",
+                adventure_squad: "🎪 Gure Abentura Magiko Taldea 🎪", 
+                select_characters: "Aukeratu nor nahi duzun istorioan:",
+                princess_aurora: "Aurora Printzesa", wizard_phoenix: "Phoenix Morroia", enchantress_sophia: "Sophia Sorginkaria",
+                guardian_marcus: "Marcus Zaindaria", starlight_stella: "Stella Izarretan", mystic_luna: "Luna Mistikoa",
+                disney_stories: "📖 Haurrentzako Disney Istorioak 📖", 
+                unique_stories: "Sortu inoiz errepikatu gabeko haurrentzako istorio bakanak!",
+                create_story: "Sortu Istorio Magiko Berria", tell_story: "Kontaiguzu Istorioa", stop_story: "Gelditu Istorioa",
+                castle_stay: "🏨 Gure Gaztelu Sorginduan Egonaldia 🏨",
+                villages_nature: "🏡 Villages Nature Paris", magic_nature: "Magia Naturarekin Topatzen Den Lekua!",
+                eco_resort: "Ipuin ekologiko resort bat non baso sorginduek Disney ametsak xuxurlatzen baitituzte!",
+                navigate_castle: "Nabigatu Gure Gaztelura",
+                today_is_day: "GAUR DA EGUN MAGIKOA! Zure Disney abentura orain hasten da! 🎆✨",
+                one_day_left: "Egun 1 bakarrik geratzen da! Prestatu zure ametsak eta izaki hautsa! 🌟",
+                days_until: "egun zure Disney abentura magikorako! 🏰",
+                days_magical: "{days} egun magiko bakarrik zure Disney ipuinerako! ✨",
+                finding_jokes: "🎭 Disney txantxa berriak bilatzen...", 
+                creating_story: "🪄 Magia Bakarra Sortzen... ✨",
+                theme_default: "Lehenetsia", theme_dark: "Iluna", theme_light: "Argia", theme_disney: "Disney Magia",
+                audio_enabled: "Audio AKTIBO", audio_disabled: "Audio DESAKTIBO",
+                stitch_speak: "Stitch Hitz Egiten Du", stitch_dance: "Stitch Dantzatzen Du", return_earth: "Lurrera Itzuli"
+            },
+            de: { 
+                made_by: "Erstellt vom Team Magic", 
+                online: "Online", 
+                weather_info: "🏰 HEUTE in Disneyland Paris: ☀️ 22°C, Teilweise bewölkt mit sonnigen Abschnitten • Temperatur: Min 13°C / Max 28°C • Regenwahrscheinlichkeit: 5% • Wind: 5-10 mph variabel • UV-Index: 5 (Mäßiger Schutz) • Feuchtigkeit: 53% • Sonnenaufgang: 7:13 • Sonnenuntergang: 8:24 PM • MORGEN: ☀️ 24°C, Wolken- und Sonnenabschnitte • Max 28°C / Min 16°C • Wind OSO 10-15 mph • Regen: 4% • Feuchtigkeit: 59% • Perfekte Disney-Bedingungen! • Beste Zeiten: 10:00-18:00 • Luftqualität: Gut • Sichtweite: 15km • Druck: 1018 hPa",
+                main_title: "✨ MAGISCHES DISNEY ABENTEUER ✨",
+                subtitle: "🏰 Wo Träume Wahr Werden - 8. September 2025! 🌟",
+                description: "🎭 Betreten Sie eine Welt voller Wunder, Magie und endloser Möglichkeiten! 🎪",
+                days: "Tage", hours: "Stunden", minutes: "Minuten", seconds: "Sekunden",
+                unleash_magic: "Entfessele die Magie", 
+                magical_stitch: "Magischer Stitch", enchanted_mickey: "Verzauberter Mickey", princess_minnie: "Prinzessin Minnie",
+                disney_jokes: "Disney Witze",
+                adventure_squad: "🎪 Unser Magisches Abenteuer Team 🎪", 
+                select_characters: "Wählen Sie, wer in der Geschichte sein soll:",
+                princess_aurora: "Prinzessin Aurora", wizard_phoenix: "Zauberer Phoenix", enchantress_sophia: "Zauberin Sophia",
+                guardian_marcus: "Wächter Marcus", starlight_stella: "Sternenlicht Stella", mystic_luna: "Mystische Luna",
+                disney_stories: "📖 Disney Kindergeschichten 📖", 
+                unique_stories: "Erstellen Sie völlig einzigartige Kindergeschichten, die sich nie wiederholen!",
+                create_story: "Neue Magische Geschichte Erstellen", tell_story: "Erzähl mir die Geschichte", stop_story: "Geschichte Stoppen",
+                castle_stay: "🏨 Unser Aufenthalt im Verzauberten Schloss 🏨",
+                villages_nature: "🏡 Villages Nature Paris", magic_nature: "Wo Magie auf Natur trifft!",
+                eco_resort: "Ein umweltfreundliches Märchen-Resort, wo verzauberte Wälder Disney-Träume flüstern!",
+                navigate_castle: "Zu Unserem Schloss Navigieren",
+                today_is_day: "HEUTE IST DER MAGISCHE TAG! Ihr Disney-Abenteuer beginnt jetzt! 🎆✨",
+                one_day_left: "Nur noch 1 Tag! Packen Sie Ihre Träume und Feenstaub! 🌟",
+                days_until: "Tage bis zu Ihrem magischen Disney-Abenteuer! 🏰",
+                days_magical: "Nur noch {days} magische Tage bis Ihr Disney-Märchen beginnt! ✨",
+                finding_jokes: "🎭 Suche nach frischen Disney-Witzen...", 
+                creating_story: "🪄 Einzigartige Magie Erstellen... ✨",
+                theme_default: "Standard", theme_dark: "Dunkel", theme_light: "Hell", theme_disney: "Disney Magie",
+                audio_enabled: "Audio EIN", audio_disabled: "Audio AUS",
+                stitch_speak: "Stitch Spricht", stitch_dance: "Stitch Tanzt", return_earth: "Zurück zur Erde"
+            },
+            pt: { 
+                made_by: "Criado pela Equipe Magic", 
+                online: "Online", 
+                weather_info: "🏰 HOJE em Disneyland Paris: ☀️ 22°C, Parcialmente nublado com intervalos de sol • Temperatura: Mín 13°C / Máx 28°C • Probabilidade chuva: 5% • Vento: 5-10 mph variável • Índice UV: 5 (Proteção moderada) • Humidade: 53% • Nascer: 7:13 • Pôr do sol: 8:24 PM • AMANHÃ: ☀️ 24°C, Intervalos de nuvens e sol • Máx 28°C / Mín 16°C • Vento ESE 10-15 mph • Chuva: 4% • Humidade: 59% • Condições Disney perfeitas! • Melhores horas: 10:00-18:00 • Qualidade ar: Boa • Visibilidade: 15km • Pressão: 1018 hPa",
+                main_title: "✨ AVENTURA MÁGICA DISNEY ✨",
+                subtitle: "🏰 Onde os Sonhos se Tornam Realidade - 8 de Setembro 2025! 🌟",
+                description: "🎭 Entre num mundo de maravilha, magia e possibilidades infinitas! 🎪",
+                days: "Dias", hours: "Horas", minutes: "Minutos", seconds: "Segundos",
+                unleash_magic: "Liberte a Magia", 
+                magical_stitch: "Stitch Mágico", enchanted_mickey: "Mickey Encantado", princess_minnie: "Princesa Minnie",
+                disney_jokes: "Piadas Disney",
+                adventure_squad: "🎪 Nossa Equipe de Aventura Mágica 🎪", 
+                select_characters: "Selecione quem você quer na história:",
+                princess_aurora: "Princesa Aurora", wizard_phoenix: "Mago Phoenix", enchantress_sophia: "Feiticeira Sophia",
+                guardian_marcus: "Guardião Marcus", starlight_stella: "Stella Estelar", mystic_luna: "Luna Mística",
+                disney_stories: "📖 Histórias Disney para Crianças 📖", 
+                unique_stories: "Crie histórias únicas para crianças que nunca se repetem!",
+                create_story: "Criar Nova História Mágica", tell_story: "Conte-me a História", stop_story: "Parar História",
+                castle_stay: "🏨 Nossa Estadia no Castelo Encantado 🏨",
+                villages_nature: "🏡 Villages Nature Paris", magic_nature: "Onde a Magia Encontra a Natureza!",
+                eco_resort: "Um resort ecológico de conto de fadas onde florestas encantadas sussurram sonhos Disney!",
+                navigate_castle: "Navegar para Nosso Castelo",
+                today_is_day: "HOJE É O DIA MÁGICO! Sua aventura Disney começa agora! 🎆✨",
+                one_day_left: "Apenas 1 dia restante! Empacote seus sonhos e pó de fada! 🌟",
+                days_until: "dias até sua aventura Disney mágica! 🏰",
+                days_magical: "Apenas {days} dias mágicos até seu conto de fadas Disney começar! ✨",
+                finding_jokes: "🎭 Procurando piadas frescas da Disney...", 
+                creating_story: "🪄 Criando Magia Única... ✨",
+                theme_default: "Padrão", theme_dark: "Escuro", theme_light: "Claro", theme_disney: "Magia Disney",
+                audio_enabled: "Audio ATIVO", audio_disabled: "Audio DESATIVADO",
+                stitch_speak: "Stitch Fala", stitch_dance: "Stitch Dança", return_earth: "Voltar à Terra"
+            }
+        };
+
+        // Global variables
+        let currentLanguage = 'en';
+        let audioEnabled = true;
+        let selectedMembers = new Set(['aurora', 'phoenix', 'sophia', 'marcus', 'stella', 'luna']);
+        let storyCounter = 0;
+        let currentStory = null;
+        let speechUtterance = null;
+        let spaceMode = false;
+        let spaceModeTimeout = null;
+
+        // Language settings for speech synthesis
+        const languageSettings = {
+            en: { lang: 'en-US', rate: 1.0, pitch: 1.0 },
+            es: { lang: 'es-ES', rate: 0.9, pitch: 1.0 },
+            it: { lang: 'it-IT', rate: 0.9, pitch: 1.1 },
+            fr: { lang: 'fr-FR', rate: 0.9, pitch: 1.0 },
+            ca: { lang: 'ca-ES', rate: 0.9, pitch: 1.0 },
+            eu: { lang: 'eu-ES', rate: 0.8, pitch: 1.0 },
+            de: { lang: 'de-DE', rate: 0.8, pitch: 0.9 },
+            pt: { lang: 'pt-PT', rate: 0.9, pitch: 1.0 }
+        };
+
+        // Team members array for stories
+        const teamMembers = [
+            { name: 'Aurora', id: 'aurora' },
+            { name: 'Phoenix', id: 'phoenix' },
+            { name: 'Sophia', id: 'sophia' },
+            { name: 'Marcus', id: 'marcus' },
+            { name: 'Stella', id: 'stella' },
+            { name: 'Luna', id: 'luna' }
+        ];
+
+        // Character phrases for interactions
+        const characterPhrases = {
+            stitch: {
+                en: ["Ohana means family! Nobody gets left behind!", "Stitch ready for Disney adventure!", "626 loves magical moments!", "Meega going to space! Galactic adventure time!", "Experiment 626 space protocol activated!"],
+                es: ["¡Ohana significa familia! ¡Nadie se queda atrás!", "¡Stitch listo para la aventura Disney!", "¡626 ama los momentos mágicos!", "¡Meega va al espacio! ¡Hora de aventura galáctica!", "¡Protocolo espacial Experimento 626 activado!"],
+                it: ["Ohana significa famiglia! Nessuno viene lasciato indietro!", "Stitch pronto per l'avventura Disney!", "626 ama i momenti magici!", "Meega va nello spazio! Ora di avventura galattica!", "Protocollo spaziale Esperimento 626 attivato!"],
+                fr: ["Ohana signifie famille! Personne n'est laissé pour compte!", "Stitch prêt pour l'aventure Disney!", "626 aime les moments magiques!", "Meega va dans l'espace! Heure d'aventure galactique!", "Protocole spatial Expérience 626 activé!"],
+                ca: ["Ohana significa família! Ningú es queda enrere!", "Stitch llest per l'aventura Disney!", "626 estima els moments màgics!", "Meega va a l'espai! Hora d'aventura galàctica!", "Protocol espacial Experiment 626 activat!"],
+                eu: ["Ohana familia esan nahi du! Inor ez da atzean uzten!", "Stitch prest Disney abenturarako!", "626k maite ditu une magikoak!", "Meega espaziora doa! Abentura galaktiko ordua!", "626 Esperimentu espazio protokoloa aktibatuta!"],
+                de: ["Ohana bedeutet Familie! Niemand wird zurückgelassen!", "Stitch bereit für Disney-Abenteuer!", "626 liebt magische Momente!", "Meega geht ins All! Zeit für galaktisches Abenteuer!", "Experiment 626 Weltraum-Protokoll aktiviert!"],
+                pt: ["Ohana significa família! Ninguém fica para trás!", "Stitch pronto para aventura Disney!", "626 ama momentos mágicos!", "Meega vai para o espaço! Hora da aventura galáctica!", "Protocolo espacial Experimento 626 ativado!"]
+            },
+            mickey: {
+                en: ["Ha-ha! Welcome to the magic, pal!", "Oh boy! Dreams come true here!", "See ya real soon for more magic!"],
+                es: ["¡Ja-ja! ¡Bienvenido a la magia, amigo!", "¡Oh chico! ¡Los sueños se hacen realidad aquí!", "¡Nos vemos pronto para más magia!"],
+                it: ["Ah-ah! Benvenuto nella magia, amico!", "Oh ragazzo! I sogni diventano realtà qui!", "Ci vediamo presto per più magia!"],
+                fr: ["Ha-ha! Bienvenue dans la magie, mon ami!", "Oh garçon! Les rêves deviennent réalité ici!", "À bientôt pour plus de magie!"],
+                ca: ["Ha-ha! Benvingut a la màgia, amic!", "Oh noi! Els somnis es fan realitat aquí!", "Ens veiem aviat per més màgia!"],
+                eu: ["Ha-ha! Ongi etorri magiara, lagun!", "Oh mutil! Ametsak egia bihurtzen dira hemen!", "Ikusiko gara laster magia gehiagorako!"],
+                de: ["Ha-ha! Willkommen in der Magie, Kumpel!", "Oh Junge! Träume werden hier wahr!", "Wir sehen uns bald für mehr Magie!"],
+                pt: ["Ha-ha! Bem-vindo à magia, amigo!", "Oh garoto! Sonhos se tornam realidade aqui!", "Nos vemos em breve para mais magia!"]
+            },
+            minnie: {
+                en: ["Oh Mickey! This is so magical!", "Tee-hee! Magic is everywhere!", "Perfect for a princess adventure!"],
+                es: ["¡Oh Mickey! ¡Esto es tan mágico!", "¡Ji-ji! ¡La magia está en todas partes!", "¡Perfecto para una aventura de princesa!"],
+                it: ["Oh Mickey! Questo è così magico!", "Tee-hee! La magia è ovunque!", "Perfetto per un'avventura da principessa!"],
+                fr: ["Oh Mickey! C'est si magique!", "Tee-hee! La magie est partout!", "Parfait pour une aventure de princesse!"],
+                ca: ["Oh Mickey! Això és tan màgic!", "Tee-hee! La màgia és a tot arreu!", "Perfecte per una aventura de princesa!"],
+                eu: ["Oh Mickey! Hau hain magikoa da!", "Tee-hee! Magia nonahi dago!", "Printzesa abentura baterako ezin hobea!"],
+                de: ["Oh Mickey! Das ist so magisch!", "Tee-hee! Magie ist überall!", "Perfekt für ein Prinzessinnen-Abenteuer!"],
+                pt: ["Oh Mickey! Isso é tão mágico!", "Tee-hee! Magia está em todo lugar!", "Perfeito para uma aventura de princesa!"]
+            }
+        };
+
+        // Main Functions
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button and current language display
+            document.querySelectorAll('.language-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`.language-btn[data-lang="${lang}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // Update current language indicator
+            const currentLangElement = document.getElementById('currentLang');
+            const langDisplayNames = {
+                en: 'EN', es: 'ES', it: 'IT', fr: 'FR',
+                ca: 'CA', eu: 'EU', de: 'DE', pt: 'PT'
+            };
+            
+            if (currentLangElement) {
+                currentLangElement.textContent = langDisplayNames[lang] || 'EN';
+            }
+            
+            // Update document language
+            document.documentElement.lang = lang;
+            
+            // Update translations
+            updateTranslations();
+            
+            // Show language change confirmation
+            const bubble = document.getElementById('speechBubble');
+            const languageMessages = {
+                en: "🌟 Welcome! Language changed to English! 🇬🇧",
+                es: "🌟 ¡Bienvenido! ¡Idioma cambiado a Español! 🇪🇸", 
+                it: "🌟 Benvenuto! Lingua cambiata in Italiano! 🇮🇹",
+                fr: "🌟 Bienvenue! Langue changée en Français! 🇫🇷",
+                ca: "🌟 Benvingut! Idioma canviat a Català! 🏴󠁥󠁳󠁣󠁴󠁿",
+                eu: "🌟 Ongi etorri! Hizkuntza Euskerara aldatuta! 🏴󠁥󠁳󠁰󠁶󠁿",
+                de: "🌟 Willkommen! Sprache zu Deutsch geändert! 🇩🇪",
+                pt: "🌟 Bem-vindo! Idioma alterado para Português! 🇵🇹"
+            };
+            
+            bubble.textContent = languageMessages[lang] || languageMessages['en'];
+            bubble.style.background = 'linear-gradient(45deg, #4ecdc4, #44a08d)';
+            bubble.style.color = 'white';
+            bubble.style.left = '50%';
+            bubble.style.top = '20%';
+            bubble.style.transform = 'translate(-50%, -50%)';
+            bubble.classList.add('show');
+            
+            // Speak welcome message
+            setTimeout(() => {
+                speakText(languageMessages[lang] || languageMessages['en']);
+            }, 500);
+            
+            // Hide bubble after 3 seconds
+            setTimeout(() => {
+                bubble.classList.remove('show');
+                bubble.style.transform = '';
+            }, 3000);
+            
+            // Create magical effect
+            createMagicalFireworks();
+        }
+
+        function changeTheme(themeName) {
+            // Remove all theme classes
+            document.body.classList.remove('theme-default', 'theme-dark', 'theme-light', 'theme-disney');
+            
+            // Add new theme class
+            if (themeName !== 'default') {
+                document.body.classList.add(`theme-${themeName}`);
+            }
+            
+            // Update theme dropdown
+            const trans = translations[currentLanguage] || translations['en'];
+            const themeText = trans[`theme_${themeName}`] || themeName;
+            document.getElementById('currentTheme').textContent = themeText;
+            
+            // Update active theme button
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-theme') === themeName) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Play sound if enabled
+            if (audioEnabled) {
+                playSound('theme');
+            }
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const audioControl = document.getElementById('audioControl');
+            const volumeIndicator = audioControl.querySelector('.volume-indicator');
+            const textSpan = audioControl.querySelector('span[data-text]');
+            const trans = translations[currentLanguage] || translations['en'];
+            
+            if (audioEnabled) {
+                audioControl.classList.remove('disabled');
+                audioControl.classList.add('enabled');
+                volumeIndicator.textContent = '🔊';
+                textSpan.setAttribute('data-text', 'audio_enabled');
+                textSpan.textContent = trans.audio_enabled;
+                playSound('enable');
+            } else {
+                audioControl.classList.remove('enabled');
+                audioControl.classList.add('disabled');
+                volumeIndicator.textContent = '🔇';
+                textSpan.setAttribute('data-text', 'audio_disabled');
+                textSpan.textContent = trans.audio_disabled;
+            }
+        }
+
+        function updateTranslations() {
+            const trans = translations[currentLanguage] || translations['en'];
+            document.querySelectorAll('[data-text]').forEach(element => {
+                const key = element.getAttribute('data-text');
+                if (trans[key]) {
+                    element.textContent = trans[key];
+                }
+            });
+            updateCountdownMessage();
+        }
+
+        function updateCountdown() {
+            const targetDate = new Date('2025-09-08T00:00:00+02:00');
+            const now = new Date();
+            const timeLeft = targetDate - now;
+
+            if (timeLeft > 0) {
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+
+                updateCountdownMessage();
+            }
+        }
+
+        function updateCountdownMessage() {
+            const targetDate = new Date('2025-09-08T00:00:00+02:00');
+            const now = new Date();
+            const timeLeft = targetDate - now;
+            const trans = translations[currentLanguage] || translations['en'];
+
+            if (timeLeft > 0) {
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                
+                let message = '';
+                if (days === 0) {
+                    message = trans.today_is_day || "TODAY IS THE MAGICAL DAY! Your Disney adventure begins now! 🎆✨";
+                } else if (days === 1) {
+                    message = trans.one_day_left || "Just 1 day left! Pack your dreams and fairy dust! 🌟";
+                } else if (days <= 7) {
+                    message = (trans.days_magical || "Only {days} magical days until your Disney fairy tale begins! ✨").replace('{days}', days);
+                } else {
+                    message = `${days} ${trans.days_until || "days until your magical Disney adventure! 🏰"}`;
+                }
+                
+                const messageElement = document.getElementById('special-message');
+                if (messageElement) {
+                    messageElement.textContent = message;
+                }
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+            
+            const timeStr = now.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('datetime').textContent = `${dateStr} • ${timeStr}`;
+        }
+
+        // STITCH SPACE MODE FUNCTIONS
+        function activateStitchSpaceMode() {
+            console.log('🚀 Activating Stitch Space Mode!');
+            
+            if (spaceMode) {
+                console.log('⚠️ Space mode already active');
+                return;
+            }
+            
+            spaceMode = true;
+            document.body.classList.add('space-mode');
+            
+            // Show space control panel
+            document.getElementById('spaceControlPanel').style.display = 'block';
+            
+            // Activate spaceship
+            const spaceship = document.getElementById('stitchSpaceship');
+            spaceship.classList.add('active');
+            
+            // Create space stars
+            createSpaceStars();
+            
+            // Show space message
+            const spaceMessage = document.createElement('div');
+            spaceMessage.className = 'space-message';
+            const trans = translations[currentLanguage] || translations['en'];
+            const messages = {
+                en: '🛸 STITCH SPACE MODE ACTIVATED! 🛸<br>Galactic Adventure: 30 seconds',
+                es: '🛸 ¡MODO ESPACIAL DE STITCH ACTIVADO! 🛸<br>Aventura Galáctica: 30 segundos',
+                it: '🛸 MODALITÀ SPAZIALE STITCH ATTIVATA! 🛸<br>Avventura Galattica: 30 secondi',
+                fr: '🛸 MODE SPATIAL STITCH ACTIVÉ! 🛸<br>Aventure Galactique: 30 secondes',
+                ca: '🛸 MODE ESPACIAL STITCH ACTIVAT! 🛸<br>Aventura Galàctica: 30 segons',
+                eu: '🛸 STITCH ESPAZIO MODUA AKTIBATUTA! 🛸<br>Abentura Galaktikoa: 30 segundo',
+                de: '🛸 STITCH WELTRAUM-MODUS AKTIVIERT! 🛸<br>Galaktisches Abenteuer: 30 Sekunden',
+                pt: '🛸 MODO ESPACIAL STITCH ATIVADO! 🛸<br>Aventura Galáctica: 30 segundos'
+            };
+            spaceMessage.innerHTML = messages[currentLanguage] || messages['en'];
+            document.body.appendChild(spaceMessage);
+            
+            // Start space timer
+            let timeLeft = 30;
+            const spaceTimer = document.getElementById('spaceTimer');
+            const timerInterval = setInterval(() => {
+                const timerMessages = {
+                    en: '🚀 SPACE MODE: ',
+                    es: '🚀 MODO ESPACIAL: ',
+                    fr: '🚀 MODE SPATIAL: ',
+                    de: '🚀 WELTRAUM-MODUS: ',
+                    it: '🚀 MODALITÀ SPAZIALE: ',
+                    pt: '🚀 MODO ESPACIAL: ',
+                    ca: '🚀 MODE ESPACIAL: ',
+                    eu: '🚀 ESPAZIO MODUA: '
+                };
+                const timerPrefix = timerMessages[currentLanguage] || timerMessages['en'];
+                spaceTimer.textContent = `${timerPrefix}${timeLeft}s`;
+                timeLeft--;
+                
+                if (timeLeft < 0) {
+                    deactivateSpaceMode();
+                    clearInterval(timerInterval);
+                }
+            }, 1000);
+            
+            // Store timeout for manual deactivation
+            spaceModeTimeout = timerInterval;
+            
+            // Remove space message after 3 seconds
+            setTimeout(() => {
+                if (spaceMessage.parentNode) {
+                    spaceMessage.remove();
+                }
+            }, 3000);
+            
+            // Speak activation phrase
+            const spacePhrases = characterPhrases.stitch[currentLanguage] || characterPhrases.stitch['en'];
+            const spacePhrase = spacePhrases[Math.floor(Math.random() * spacePhrases.length)];
+            speakText(spacePhrase);
+            
+            // Create magical fireworks
+            createMagicalFireworks();
+            
+            // Show speech bubble with phrase
+            showCharacterPhrase('stitch');
+        }
+
+        function deactivateSpaceMode() {
+            console.log('🌍 Deactivating Space Mode');
+            
+            spaceMode = false;
+            document.body.classList.remove('space-mode');
+            
+            // Hide space control panel
+            document.getElementById('spaceControlPanel').style.display = 'none';
+            
+            // Deactivate spaceship
+            const spaceship = document.getElementById('stitchSpaceship');
+            spaceship.classList.remove('active');
+            
+            // Clear space stars
+            clearSpaceStars();
+            
+            // Clear timer
+            if (spaceModeTimeout) {
+                clearInterval(spaceModeTimeout);
+                spaceModeTimeout = null;
+            }
+            
+            // Clear space timer display
+            document.getElementById('spaceTimer').textContent = '';
+            
+            // Remove any remaining space elements
+            const spaceMessage = document.querySelector('.space-message');
+            if (spaceMessage) spaceMessage.remove();
+            
+            const trans = translations[currentLanguage] || translations['en'];
+            const returnMessages = {
+                en: "🌍 Welcome back to Earth! Disney magic continues! ✨",
+                es: "🌍 ¡Bienvenido de vuelta a la Tierra! ¡La magia Disney continúa! ✨",
+                it: "🌍 Bentornato sulla Terra! La magia Disney continua! ✨",
+                fr: "🌍 Bienvenue de retour sur Terre! La magie Disney continue! ✨",
+                ca: "🌍 Benvingut de tornada a la Terra! La màgia Disney continua! ✨",
+                eu: "🌍 Ongi etorri berriro Lurrera! Disney magia jarraitzen du! ✨",
+                de: "🌍 Willkommen zurück auf der Erde! Disney-Magie geht weiter! ✨",
+                pt: "🌍 Bem-vindo de volta à Terra! A magia Disney continua! ✨"
+            };
+            
+            showSpeechBubble(returnMessages[currentLanguage] || returnMessages['en']);
+        }
+
+        function createSpaceStars() {
+            const starsContainer = document.getElementById('spaceStars');
+            starsContainer.innerHTML = '';
+            
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = `star ${['small', 'medium', 'large'][Math.floor(Math.random() * 3)]}`;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function clearSpaceStars() {
+            const starsContainer = document.getElementById('spaceStars');
+            starsContainer.innerHTML = '';
+        }
+
+        function stitchSpeak() {
+            const phrases = characterPhrases.stitch[currentLanguage] || characterPhrases.stitch['en'];
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            
+            showSpeechBubble(randomPhrase);
+            speakText(randomPhrase);
+            
+            // Animate Stitch character
+            const stitchCharacter = document.querySelector('[data-character="stitch"]');
+            if (stitchCharacter) {
+                stitchCharacter.style.transform = 'scale(1.2) rotate(5deg)';
+                setTimeout(() => {
+                    stitchCharacter.style.transform = '';
+                }, 500);
+            }
+        }
+
+        function stitchDance() {
+            const stitchCharacter = document.querySelector('[data-character="stitch"]');
+            if (!stitchCharacter) return;
+            
+            // Dance sequence
+            const danceSequence = [
+                'rotate(15deg) scale(1.1)',
+                'rotate(-15deg) scale(1.2)',
+                'rotate(10deg) scale(1.05)',
+                'rotate(-10deg) scale(1.15)',
+                'rotate(0deg) scale(1)'
+            ];
+            
+            let step = 0;
+            const danceInterval = setInterval(() => {
+                stitchCharacter.style.transform = danceSequence[step];
+                step++;
+                
+                if (step >= danceSequence.length) {
+                    clearInterval(danceInterval);
+                    stitchCharacter.style.transform = '';
+                }
+            }, 200);
+            
+            // Dance message
+            const danceMessages = {
+                en: "💃 Stitch is dancing! Let's boogie to Disney! 🕺",
+                es: "💃 ¡Stitch está bailando! ¡Vamos a bailar a Disney! 🕺",
+                it: "💃 Stitch sta ballando! Balliamo a Disney! 🕺",
+                fr: "💃 Stitch danse! Dansons à Disney! 🕺",
+                ca: "💃 Stitch està ballant! Anem a ballar a Disney! 🕺",
+                eu: "💃 Stitch dantzatzen ari da! Dantzatu dezagun Disney-n! 🕺",
+                de: "💃 Stitch tanzt! Lass uns zu Disney tanzen! 🕺",
+                pt: "💃 Stitch está dançando! Vamos dançar no Disney! 🕺"
+            };
+            
+            const message = danceMessages[currentLanguage] || danceMessages['en'];
+            showSpeechBubble(message);
+            speakText("Stitch dancing! Let's boogie!");
+            
+            // Create dance effects
+            createDanceEffects();
+        }
+
+        function createDanceEffects() {
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.innerHTML = ['💃', '🕺', '🎵', '🎶'][Math.floor(Math.random() * 4)];
+                    particle.style.cssText = `
+                        position: fixed;
+                        left: ${Math.random() * 100}%;
+                        top: ${Math.random() * 100}%;
+                        font-size: 2rem;
+                        pointer-events: none;
+                        z-index: 999;
+                        animation: danceParticle 2s ease-out forwards;
+                    `;
+                    
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 2000);
+                }, i * 100);
+            }
+        }
+
+        function showCharacterPhrase(character) {
+            const phrases = characterPhrases[character];
+            if (!phrases || !phrases[currentLanguage]) return;
+            
+            const randomPhrase = phrases[currentLanguage][Math.floor(Math.random() * phrases[currentLanguage].length)];
+            
+            const bubble = document.getElementById('speechBubble');
+            
+            if (character === 'stitch' && spaceMode) {
+                bubble.style.background = 'linear-gradient(45deg, #0096ff, #8a2be2)';
+                bubble.style.color = 'white';
+            } else {
+                bubble.style.background = 'linear-gradient(45deg, #ff69b4, #87ceeb)';
+                bubble.style.color = '#333';
+            }
+            
+            bubble.classList.remove('loading');
+            bubble.textContent = randomPhrase;
+            bubble.style.left = Math.random() * (window.innerWidth - 280) + 'px';
+            bubble.style.top = (100 + Math.random() * 200) + 'px';
+            bubble.style.transform = '';
+            bubble.classList.add('show');
+            
+            speakText(randomPhrase);
+            
+            const charElement = document.querySelector(`.character[data-character="${character}"]`);
+            if (charElement) {
+                charElement.style.animation = 'magicalBounce 0.8s ease-in-out';
+                setTimeout(() => {
+                    charElement.style.animation = '';
+                }, 800);
+            }
+            
+            setTimeout(() => {
+                createMagicalFireworks();
+            }, 1000);
+            
+            setTimeout(() => {
+                bubble.classList.remove('show');
+            }, 4000);
+        }
+
+        function showSpeechBubble(message) {
+            const bubble = document.getElementById('speechBubble');
+            
+            bubble.textContent = message;
+            bubble.style.left = Math.random() * (window.innerWidth - 300) + 'px';
+            bubble.style.top = (100 + Math.random() * 200) + 'px';
+            bubble.classList.add('show');
+            
+            setTimeout(() => {
+                bubble.classList.remove('show');
+            }, 4000);
+        }
+
+        function speakText(text) {
+            if (!window.speechSynthesis || !audioEnabled) return;
+            
+            // Cancel any ongoing speech
+            speechSynthesis.cancel();
+            
+            // Wait a moment before starting new speech
+            setTimeout(() => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                const settings = languageSettings[currentLanguage] || languageSettings['en'];
+                
+                utterance.rate = settings.rate;
+                utterance.pitch = settings.pitch;
+                utterance.volume = 0.9;
+                utterance.lang = settings.lang;
+                
+                // Add some magical sound effects through text modifications
+                if (text.includes('✨') || text.includes('🌟') || text.includes('⭐')) {
+                    utterance.pitch = Math.min(utterance.pitch + 0.2, 2.0);
+                }
+                
+                // Error handling
+                utterance.onerror = (event) => {
+                    console.log('Speech synthesis error:', event.error);
+                };
+                
+                speechSynthesis.speak(utterance);
+            }, 100);
+        }
+
+        // Enhanced joke function with AI integration
+        async function getFreshDisneyJoke() {
+            const bubble = document.getElementById('speechBubble');
+            const trans = translations[currentLanguage] || translations['en'];
+            
+            bubble.classList.add('loading');
+            bubble.textContent = trans.finding_jokes || '🎭 Finding fresh Disney character jokes...';
+            bubble.style.left = '50%';
+            bubble.style.top = '50%';
+            bubble.style.transform = 'translate(-50%, -50%)';
+            bubble.classList.add('show');
+            
+            try {
+                const languageInstructions = {
+                    en: "Tell me a completely fresh, funny joke specifically about DISNEY CHARACTERS in ENGLISH that's perfect for children ages 5-12.",
+                    es: "Cuéntame un chiste completamente nuevo y divertido específicamente sobre PERSONAJES DE DISNEY en ESPAÑOL que sea perfecto para niños de 5-12 años.",
+                    it: "Raccontami una barzelletta completamente nuova e divertente specificamente sui PERSONAGGI DISNEY in ITALIANO perfetta per bambini di 5-12 anni.",
+                    fr: "Raconte-moi une blague complètement nouvelle et drôle spécifiquement sur les PERSONNAGES DISNEY en FRANÇAIS parfaite pour les enfants de 5-12 ans.",
+                    ca: "Explica'm un acudit completament nou i divertit específicament sobre PERSONATGES DE DISNEY en CATALÀ perfecte per a nens de 5-12 anys.",
+                    eu: "Kontaiguzu txantxa berri eta dibertigarri bat bereziki DISNEY PERTSONAIEI buruzkoa EUSKERAZ 5-12 urte bitarteko haurrentzat ezin hobea.",
+                    de: "Erzähl mir einen völlig neuen, lustigen Witz speziell über DISNEY-FIGUREN auf DEUTSCH, der perfekt für Kinder von 5-12 Jahren ist.",
+                    pt: "Conte-me uma piada completamente nova e engraçada especificamente sobre PERSONAGENS DA DISNEY em PORTUGUÊS perfeita para crianças de 5-12 anos."
+                };
+                
+                const instruction = languageInstructions[currentLanguage] || languageInstructions['en'];
+                
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514",
+                        max_tokens: 300,
+                        messages: [
+                            { 
+                                role: "user", 
+                                content: `${instruction} Must feature specific Disney characters by name, be family-friendly, and use creative wordplay that kids would find hilarious. Just give me ONE brilliant Disney character joke! IMPORTANT: Answer ONLY in ${getLanguageName(currentLanguage)} language, no other language!`
+                            }
+                        ]
+                    })
+                });
+                
+                const data = await response.json();
+                const freshJoke = data.content[0].text.trim();
+                
+                bubble.classList.remove('loading');
+                bubble.style.background = 'linear-gradient(45deg, #ffd93d, #ff6b6b)';
+                bubble.textContent = freshJoke;
+                
+                createMagicalFireworks();
+                speakText(freshJoke);
+                
+            } catch (error) {
+                console.error('Failed to fetch fresh joke:', error);
+                
+                const localJokes = {
+                    en: [
+                        "Why did Donald Duck become a detective? Because he was great at quack-ing cases!",
+                        "What does Elsa eat for breakfast? Snowflakes with ice cream!",
+                        "Why is Mickey Mouse such a good friend? Because he's always there with a helping paw!"
+                    ],
+                    es: [
+                        "¿Por qué Elsa nunca tiene frío? ¡Porque siempre tiene la situación under control-ado!",
+                        "¿Qué dice Mickey cuando tiene hambre? ¡Tengo un ham-bre de ratón!",
+                        "¿Por qué Stitch es tan bueno en matemáticas? ¡Porque siempre suma diversión!"
+                    ],
+                    it: [
+                        "Perché Elsa non ha mai freddo? Perché ha sempre la situazione sotto control-ghiaccio!",
+                        "Cosa dice Topolino quando ha fame? Ho una fame da... topo!",
+                        "Perché Stitch è bravo in matematica? Perché sa sempre fare le addizioni divertenti!"
+                    ],
+                    fr: [
+                        "Pourquoi Elsa n'a jamais froid? Parce qu'elle garde toujours son sang-froid!",
+                        "Que dit Mickey quand il a faim? J'ai une faim de souris!",
+                        "Pourquoi Stitch est bon en maths? Il sait toujours faire des additions amusantes!"
+                    ],
+                    ca: [
+                        "Per què l'Elsa mai té fred? Perquè sempre manté la calma gelada!",
+                        "Què diu en Mickey quan té gana? Tinc una gana de ratolí!",
+                        "Per què l'Stitch és bo en matemàtiques? Sempre sap fer sumes divertides!"
+                    ],
+                    eu: [
+                        "Zergatik ez du Elsak inoiz hotzik? Beti mantentzen duelako lasaitasun izozta!",
+                        "Zer esaten du Mickeyk gose denean? Sagu-gose daukat!",
+                        "Zergatik da Stitch ona matematiketan? Beti dakielako batuketa dibertigarriak egiten!"
+                    ],
+                    de: [
+                        "Warum ist Elsa nie kalt? Weil sie immer cool bleibt!",
+                        "Was sagt Mickey wenn er Hunger hat? Ich habe einen Mäuse-Hunger!",
+                        "Warum ist Stitch gut in Mathe? Er kann immer lustige Additionen machen!"
+                    ],
+                    pt: [
+                        "Por que Elsa nunca tem frio? Porque ela sempre mantém a calma gelada!",
+                        "O que Mickey diz quando tem fome? Tenho uma fome de rato!",
+                        "Por que Stitch é bom em matemática? Sempre sabe fazer adições divertidas!"
+                    ]
+                };
+                
+                const jokes = localJokes[currentLanguage] || localJokes['en'];
+                const fallbackJoke = jokes[Math.floor(Math.random() * jokes.length)];
+                
+                bubble.classList.remove('loading');
+                bubble.style.background = 'linear-gradient(45deg, #ffd93d, #ff6b6b)';
+                bubble.textContent = fallbackJoke;
+                
+                speakText(fallbackJoke);
+            }
+            
+            setTimeout(() => {
+                bubble.classList.remove('show');
+                bubble.style.transform = '';
+            }, 8000);
+        }
+
+        // Generate unique story with AI
+        async function generateUniqueStory() {
+            const selectedMembersList = teamMembers.filter(member => selectedMembers.has(member.id));
+            const trans = translations[currentLanguage] || translations['en'];
+            
+            if (selectedMembersList.length === 0) {
+                return { 
+                    title: trans.create_story || 'No Characters Selected', 
+                    story: trans.select_characters || 'Please select at least one team member to create a magical story!' 
+                };
+            }
+            
+            const characterNames = selectedMembersList.map(member => member.name).join(', ');
+            storyCounter++;
+            
+            try {
+                const storyInstructions = {
+                    en: `Create a completely unique CHILDREN'S Disney adventure story #${storyCounter} for Disneyland Paris featuring: ${characterNames}. Write the entire story in ENGLISH.`,
+                    es: `Crea una historia de aventura Disney completamente única para NIÑOS #${storyCounter} para Disneyland París con: ${characterNames}. Escribe toda la historia en ESPAÑOL.`,
+                    it: `Crea una storia di avventura Disney completamente unica per BAMBINI #${storyCounter} per Disneyland Parigi con: ${characterNames}. Scrivi tutta la storia in ITALIANO.`,
+                    fr: `Créez une histoire d'aventure Disney complètement unique pour ENFANTS #${storyCounter} pour Disneyland Paris avec: ${characterNames}. Écrivez toute l'histoire en FRANÇAIS.`,
+                    ca: `Crea una història d'aventura Disney completament única per a NENS #${storyCounter} per a Disneyland París amb: ${characterNames}. Escriu tota la història en CATALÀ.`,
+                    eu: `Sortu Disney abentura istorio oso bakarra HAURRENTZAKO #${storyCounter} Disneyland Paris-erako honekin: ${characterNames}. Idatzi istorio osoa EUSKERAZ.`,
+                    de: `Erstellen Sie eine völlig einzigartige Disney-Abenteuergeschichte für KINDER #${storyCounter} für Disneyland Paris mit: ${characterNames}. Schreiben Sie die ganze Geschichte auf DEUTSCH.`,
+                    pt: `Crie uma história de aventura Disney completamente única para CRIANÇAS #${storyCounter} para Disneyland Paris com: ${characterNames}. Escreva toda a história em PORTUGUÊS.`
+                };
+                
+                const instruction = storyInstructions[currentLanguage] || storyInstructions['en'];
+                
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514",
+                        max_tokens: 900,
+                        messages: [
+                            { 
+                                role: "user", 
+                                content: `${instruction} Perfect for kids ages 4-10 with simple, engaging language, positive messages about friendship and courage, no scary parts, and lots of wonder and excitement. Length: 250-350 words. Format: Creative title on first line, then the story. IMPORTANT: Write EVERYTHING in ${getLanguageName(currentLanguage)} language ONLY!`
+                            }
+                        ]
+                    })
+                });
+                
+                const data = await response.json();
+                const storyText = data.content[0].text.trim();
+                
+                let title = trans.disney_stories || "A Magical Disney Adventure";
+                let story = storyText;
+                
+                const lines = storyText.split('\n');
+                if (lines.length > 1) {
+                    title = lines[0].trim();
+                    story = lines.slice(1).join('\n').trim();
+                }
+                
+                createMagicalFireworks();
+                return { title, story };
+                
+            } catch (error) {
+                console.error('Failed to fetch unique story:', error);
+                
+                const fallbackStories = {
+                    en: {
+                        title: `Story #${storyCounter}: The Wonderful Adventure`,
+                        story: `Once upon a time in the most magical place on earth, ${characterNames} discovered something absolutely amazing! They went on the most incredible adventure through Disneyland Paris and learned that the most powerful magic of all is friendship and kindness. The End! 🏰`
+                    },
+                    es: {
+                        title: `Historia #${storyCounter}: La Aventura Maravillosa`,
+                        story: `Érase una vez en el lugar más mágico de la tierra, ${characterNames} descubrieron algo absolutamente increíble! Vivieron la aventura más increíble por Disneyland París y aprendieron que la magia más poderosa de todas es la amistad y la bondad. ¡Fin! 🏰`
+                    }
+                };
+                
+                const fallback = fallbackStories[currentLanguage] || fallbackStories['en'];
+                return fallback;
+            }
+        }
+
+        function getLanguageName(code) {
+            const names = {
+                en: 'English', 
+                it: 'Italian', 
+                fr: 'French', 
+                es: 'Spanish', 
+                ca: 'Catalan', 
+                eu: 'Basque',
+                de: 'German', 
+                pt: 'Portuguese'
+            };
+            return names[code] || 'English';
+        }
+
+        // Sound effects simulation
+        function playSound(type) {
+            if (!audioEnabled) return;
+            
+            console.log(`🔊 Playing ${type} sound effect`);
+            
+            // Visual feedback for sound
+            const body = document.body;
+            body.style.filter = 'brightness(1.1)';
+            setTimeout(() => {
+                body.style.filter = 'brightness(1)';
+            }, 100);
+        }
+
+        // Fireworks system
+        function createMagicalFireworks() {
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    createSingleFirework();
+                }, i * 300);
+            }
+            
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createMagicalEmojiFirework();
+                }, i * 600);
+            }
+        }
+
+        function createSingleFirework() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * (window.innerHeight * 0.7) + window.innerHeight * 0.1;
+            
+            const explosion = document.createElement('div');
+            explosion.style.cssText = `
+                position: fixed;
+                left: ${x}px;
+                top: ${y}px;
+                width: 4px;
+                height: 4px;
+                background: ${color};
+                border-radius: 50%;
+                box-shadow: 0 0 20px ${color}, 0 0 40px ${color};
+                animation: fireworkExplosion 1s ease-out forwards;
+                z-index: 1000;
+                pointer-events: none;
+            `;
+            document.body.appendChild(explosion);
+            
+            for (let i = 0; i < 16; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: fixed;
+                    left: ${x}px;
+                    top: ${y}px;
+                    width: 3px;
+                    height: 3px;
+                    background: ${color};
+                    border-radius: 50%;
+                    animation: fireworkParticle 2s ease-out forwards;
+                    z-index: 1000;
+                    pointer-events: none;
+                `;
+                
+                const angle = (i / 16) * Math.PI * 2;
+                const distance = 80 + Math.random() * 120;
+                const dx = Math.cos(angle) * distance;
+                const dy = Math.sin(angle) * distance;
+                
+                particle.style.setProperty('--dx', dx + 'px');
+                particle.style.setProperty('--dy', dy + 'px');
+                
+                document.body.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 2000);
+            }
+            
+            setTimeout(() => explosion.remove(), 1000);
+        }
+
+        function createMagicalEmojiFirework() {
+            const magicalEmojis = ['✨', '🌟', '⭐', '💫', '🎆', '🎇', '🎊', '🎉', '🦋', '💎', '🔮', '🌙'];
+            const emoji = magicalEmojis[Math.floor(Math.random() * magicalEmojis.length)];
+            
+            const firework = document.createElement('div');
+            firework.style.cssText = `
+                position: fixed;
+                left: ${Math.random() * (window.innerWidth - 100)}px;
+                top: 100vh;
+                font-size: 2rem;
+                color: hsl(${Math.random() * 360}, 100%, 70%);
+                filter: drop-shadow(0 0 10px currentColor);
+                animation: magicFirework 3s ease-out forwards;
+                z-index: 1001;
+                pointer-events: none;
+            `;
+            firework.textContent = emoji;
+            
+            document.body.appendChild(firework);
+            
+            setTimeout(() => firework.remove(), 3000);
+        }
+
+        // Add missing animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fireworkExplosion {
+                0% { transform: scale(0); opacity: 1; }
+                50% { transform: scale(8); opacity: 0.8; }
+                100% { transform: scale(12); opacity: 0; }
+            }
+
+            @keyframes fireworkParticle {
+                0% { transform: translate(0, 0) scale(1); opacity: 1; }
+                100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+            }
+
+            @keyframes magicFirework {
+                0% { 
+                    transform: translateY(0) scale(0) rotate(0deg); 
+                    opacity: 0; 
+                    filter: hue-rotate(0deg) brightness(1);
+                }
+                10% { 
+                    opacity: 1; 
+                    transform: translateY(-50vh) scale(1.2) rotate(90deg);
+                }
+                50% { 
+                    transform: translateY(-80vh) scale(2) rotate(180deg); 
+                    filter: hue-rotate(180deg) brightness(1.5);
+                }
+                80% { 
+                    transform: translateY(-90vh) scale(1.5) rotate(270deg); 
+                    filter: hue-rotate(270deg) brightness(2);
+                }
+                100% { 
+                    transform: translateY(-110vh) scale(0) rotate(360deg); 
+                    opacity: 0; 
+                    filter: hue-rotate(360deg) brightness(0.5);
+                }
+            }
+
+            @keyframes magicalBounce {
+                0%, 20%, 60%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+                40% { transform: translateY(-30px) scale(1.2) rotate(5deg); }
+                80% { transform: translateY(-15px) scale(1.1) rotate(-3deg); }
+            }
+
+            @keyframes danceParticle {
+                0% { opacity: 1; transform: scale(0.5) rotate(0deg); }
+                50% { opacity: 1; transform: scale(1.5) rotate(180deg); }
+                100% { opacity: 0; transform: scale(0) rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Global functions for inline events
+        window.changeLanguage = changeLanguage;
+        window.changeTheme = changeTheme;
+        window.toggleAudio = toggleAudio;
+        window.activateStitchSpaceMode = activateStitchSpaceMode;
+        window.deactivateSpaceMode = deactivateSpaceMode;
+        window.stitchSpeak = stitchSpeak;
+        window.stitchDance = stitchDance;
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Magical entrance animation
+            document.body.style.animation = 'magicalEntrance 2s ease-out';
+            
+            // Start countdown and datetime
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            
+            // Character clicks
+            document.querySelectorAll('.character').forEach(char => {
+                const characterType = char.getAttribute('data-character');
+                if (characterType !== 'stitch') {
+                    char.addEventListener('click', function() {
+                        showCharacterPhrase(characterType);
+                    });
+                }
+            });
+            
+            // Music button
+            const playButton = document.getElementById('playButton');
+            if (playButton) {
+                playButton.addEventListener('click', function() {
+                    const trans = translations[currentLanguage] || translations['en'];
+                    
+                    // Create and show music player
+                    if (!document.getElementById('musicPlayerContainer')) {
+                        const playerContainer = document.createElement('div');
+                        playerContainer.id = 'musicPlayerContainer';
+                        playerContainer.style.cssText = `
+                            position: fixed;
+                            bottom: 20px;
+                            right: 20px;
+                            width: 300px;
+                            height: 200px;
+                            background: linear-gradient(135deg, #66c2ff 0%, #0099ff 100%);
+                            border-radius: 15px;
+                            padding: 10px;
+                            z-index: 1000;
+                            box-shadow: 0 5px 25px rgba(173,216,230,0.8);
+                            display: flex;
+                            flex-direction: column;
+                            border: 2px solid rgba(173,216,230,0.8);
+                        `;
+                        
+                        const closeBtn = document.createElement('button');
+                        closeBtn.textContent = '✕';
+                        closeBtn.style.cssText = `
+                            position: absolute;
+                            top: 5px;
+                            right: 5px;
+                            background: rgba(255,255,255,0.3);
+                            color: white;
+                            border: none;
+                            border-radius: 50%;
+                            width: 25px;
+                            height: 25px;
+                            cursor: pointer;
+                        `;
+                        closeBtn.onclick = function() {
+                            playerContainer.remove();
+                            playButton.innerHTML = `<span>▶️</span><br><span>${trans.unleash_magic || 'Unleash the Magic'}</span>`;
+                        };
+                        
+                        const title = document.createElement('div');
+                        title.innerHTML = '❄️ Let It Go - Frozen ❄️';
+                        title.style.cssText = 'color: white; text-align: center; padding: 5px; font-weight: bold; text-shadow: 0 0 10px rgba(173,216,230,1);';
+                        
+                        const iframe = document.createElement('iframe');
+                        iframe.src = 'https://www.youtube.com/embed/L0MK7qz13bU?autoplay=1&loop=1&playlist=L0MK7qz13bU';
+                        iframe.style.cssText = 'width: 100%; flex: 1; border: none; border-radius: 10px;';
+                        iframe.allow = 'autoplay; encrypted-media';
+                        
+                        playerContainer.appendChild(closeBtn);
+                        playerContainer.appendChild(title);
+                        playerContainer.appendChild(iframe);
+                        document.body.appendChild(playerContainer);
+                        
+                        this.innerHTML = `<span>❄️</span><br><span>Stop Music</span>`;
+                    } else {
+                        document.getElementById('musicPlayerContainer').remove();
+                        this.innerHTML = `<span>▶️</span><br><span>${trans.unleash_magic || 'Unleash the Magic'}</span>`;
+                    }
+                });
+            }
+            
+            // Joke button
+            const jokeButton = document.getElementById('jokeButton');
+            if (jokeButton) {
+                jokeButton.addEventListener('click', getFreshDisneyJoke);
+            }
+
+            // Family members selection
+            document.querySelectorAll('.family-member[data-member]').forEach(member => {
+                const memberName = member.getAttribute('data-member');
+                if (selectedMembers.has(memberName)) {
+                    member.classList.add('selected');
+                }
+                
+                member.addEventListener('click', function() {
+                    const wasSelected = selectedMembers.has(memberName);
+                    
+                    if (wasSelected) {
+                        selectedMembers.delete(memberName);
+                        this.classList.remove('selected');
+                        
+                        // Deselection effect
+                        this.style.animation = 'pulse 0.3s ease-in-out';
+                        setTimeout(() => {
+                            this.style.animation = '';
+                        }, 300);
+                    } else {
+                        selectedMembers.add(memberName);
+                        this.classList.add('selected');
+                        
+                        // Selection effects
+                        this.style.animation = 'magicalBounce 0.8s ease-in-out';
+                        setTimeout(() => {
+                            this.style.animation = '';
+                        }, 800);
+                        
+                        // Play selection sound
+                        if (Math.random() < 0.5) { // 50% chance to speak
+                            setTimeout(() => {
+                                speakText(`${memberName} joins the adventure!`);
+                            }, 200);
+                        }
+                    }
+                });
+            });
+            
+            // Story functionality
+            const createStoryBtn = document.getElementById('createStoryBtn');
+            if (createStoryBtn) {
+                createStoryBtn.addEventListener('click', async function() {
+                    const trans = translations[currentLanguage] || translations['en'];
+                    
+                    // Check if characters are selected
+                    if (selectedMembers.size === 0) {
+                        const bubble = document.getElementById('speechBubble');
+                        bubble.textContent = trans.select_characters || 'Please select at least one character first! ✨';
+                        bubble.style.background = 'linear-gradient(45deg, #ff6b6b, #ffd93d)';
+                        bubble.style.left = '50%';
+                        bubble.style.top = '50%';
+                        bubble.style.transform = 'translate(-50%, -50%)';
+                        bubble.classList.add('show');
+                        setTimeout(() => {
+                            bubble.classList.remove('show');
+                        }, 4000);
+                        return;
+                    }
+                    
+                    this.innerHTML = `🪄 <span>${trans.creating_story || 'Creating Unique Magic...'}</span> ✨`;
+                    this.disabled = true;
+                    this.style.opacity = '0.7';
+                    
+                    createMagicalFireworks();
+                    
+                    try {
+                        currentStory = await generateUniqueStory();
+                        const storyTitle = document.getElementById('storyTitle');
+                        const storyDisplay = document.getElementById('storyDisplay');
+                        const storyText = document.getElementById('storyText');
+                        
+                        if (storyTitle) storyTitle.textContent = `✨ ${currentStory.title} ✨`;
+                        if (storyDisplay) {
+                            storyDisplay.style.display = 'block';
+                            storyDisplay.style.animation = 'magicalEntrance 1s ease-out';
+                        }
+                        if (storyText) {
+                            storyText.innerHTML = currentStory.story.replace(/\n/g, '<br>');
+                            storyText.style.display = 'block';
+                        }
+                        
+                        setTimeout(() => {
+                            createMagicalFireworks();
+                        }, 500);
+                    } catch (error) {
+                        console.error('Story creation failed:', error);
+                    }
+                    
+                    this.innerHTML = `🪄 <span>${trans.create_story || 'Create New Magical Story'}</span> ✨`;
+                    this.disabled = false;
+                    this.style.opacity = '1';
+                });
+            }
+            
+            const playStoryBtn = document.getElementById('playStoryBtn');
+            const stopStoryBtn = document.getElementById('stopStoryBtn');
+            
+            if (playStoryBtn) {
+                playStoryBtn.addEventListener('click', function() {
+                    const trans = translations[currentLanguage] || translations['en'];
+                    
+                    if (currentStory && window.speechSynthesis) {
+                        if (speechSynthesis.speaking) {
+                            speechSynthesis.cancel();
+                            this.innerHTML = `▶️ <span>${trans.tell_story || 'Tell Me The Story'}</span>`;
+                            if (stopStoryBtn) stopStoryBtn.style.display = 'none';
+                        } else {
+                            speechUtterance = new SpeechSynthesisUtterance(currentStory.story);
+                            const settings = languageSettings[currentLanguage] || languageSettings['en'];
+                            speechUtterance.rate = settings.rate;
+                            speechUtterance.pitch = settings.pitch;
+                            speechUtterance.volume = 1.0;
+                            speechUtterance.lang = settings.lang;
+                            
+                            speechUtterance.onend = () => {
+                                this.innerHTML = `▶️ <span>${trans.tell_story || 'Tell Me The Story'}</span>`;
+                                if (stopStoryBtn) stopStoryBtn.style.display = 'none';
+                            };
+                            
+                            speechSynthesis.speak(speechUtterance);
+                            this.innerHTML = '⏸️ Pause';
+                            if (stopStoryBtn) stopStoryBtn.style.display = 'inline-flex';
+                        }
+                    }
+                });
+            }
+            
+            if (stopStoryBtn) {
+                stopStoryBtn.addEventListener('click', function() {
+                    const trans = translations[currentLanguage] || translations['en'];
+                    
+                    if (window.speechSynthesis) {
+                        speechSynthesis.cancel();
+                        if (playStoryBtn) playStoryBtn.innerHTML = `▶️ <span>${trans.tell_story || 'Tell Me The Story'}</span>`;
+                        this.style.display = 'none';
+                    }
+                });
+            }
+
+            // Speech bubble click to dismiss
+            const speechBubble = document.getElementById('speechBubble');
+            if (speechBubble) {
+                speechBubble.addEventListener('click', function() {
+                    this.classList.remove('show');
+                });
+            }
+
+            // Initialize translations
+            updateTranslations();
+
+            // Initial welcome message and fireworks
+            setTimeout(() => {
+                const trans = translations[currentLanguage] || translations['en'];
+                const welcomeMessages = {
+                    en: "✨ Welcome to your magical Disney countdown! ✨",
+                    es: "✨ ¡Bienvenido a tu cuenta regresiva mágica de Disney! ✨",
+                    it: "✨ Benvenuto al tuo conto alla rovescia magico Disney! ✨",
+                    fr: "✨ Bienvenue dans votre compte à rebours magique Disney! ✨",
+                    ca: "✨ Benvingut al teu compte enrere màgic de Disney! ✨",
+                    eu: "✨ Ongi etorri zure Disney kontu atzera magikoragana! ✨",
+                    de: "✨ Willkommen zu Ihrem magischen Disney-Countdown! ✨",
+                    pt: "✨ Bem-vindo à sua contagem regressiva mágica da Disney! ✨"
+                };
+                
+                const bubble = document.getElementById('speechBubble');
+                bubble.textContent = welcomeMessages[currentLanguage] || welcomeMessages['en'];
+                bubble.style.background = 'linear-gradient(45deg, #4ecdc4, #44a08d)';
+                bubble.style.color = 'white';
+                bubble.style.left = '50%';
+                bubble.style.top = '30%';
+                bubble.style.transform = 'translate(-50%, -50%)';
+                bubble.classList.add('show');
+                
+                setTimeout(() => {
+                    bubble.classList.remove('show');
+                }, 4000);
+                
+                createMagicalFireworks();
+            }, 2000);
+        });
+    </script>
